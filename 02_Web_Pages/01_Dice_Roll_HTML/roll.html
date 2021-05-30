@@ -1,0 +1,294 @@
+<html>
+<head>
+<script type="text/javascript">
+var nums = "";
+function rollit()
+{
+	var a = Math.floor((Math.random() * 9) + 1);
+	var b = Math.floor((Math.random() * 9) + 1);
+	var pos = localStorage.getItem("pos");
+	var i;
+	hideall();
+	if(pos > 0)
+	{
+		pos = pos + 1;
+	}
+	else
+		pos = 1
+	localStorage.setItem("num"+pos, a+b);
+	
+	for(i=1;i<=pos;i++)
+	{
+		nums = nums+" "+localStorage.getItem("num"+i);
+	}
+	document.getElementById("numbers").innerHTML = nums;
+	switch (a)
+	{
+		case 1:	make_one(1); break;
+		case 2: make_two(1); break;
+		case 3:	make_three(1); break;
+		case 4: make_four(1); break;
+		case 5:	make_five(1); break;
+		case 6: make_six(1); break;
+		case 7:	make_seven(1); break;
+		case 8: make_eight(1); break;
+		case 9: make_nine(1); break;
+	}
+	switch (b)
+	{
+		case 1:	make_one(2); break;
+		case 2: make_two(2); break;
+		case 3:	make_three(2); break;
+		case 4: make_four(2); break;
+		case 5:	make_five(2); break;
+		case 6: make_six(2); break;
+		case 7:	make_seven(2); break;
+		case 8: make_eight(2); break;
+		case 9: make_nine(2); break;
+	}
+}
+function hideall()
+{
+	document.getElementById("one1").style.display = 'none';
+	document.getElementById("two1").style.display = 'none';
+	document.getElementById("three1").style.display = 'none';
+	document.getElementById("four1").style.display = 'none';
+	document.getElementById("five1").style.display = 'none';
+	document.getElementById("six1").style.display = 'none';
+	document.getElementById("seven1").style.display = 'none';
+	document.getElementById("eight1").style.display = 'none';
+	document.getElementById("nine1").style.display = 'none';
+	document.getElementById("one2").style.display = 'none';
+	document.getElementById("two2").style.display = 'none';
+	document.getElementById("three2").style.display = 'none';
+	document.getElementById("four2").style.display = 'none';
+	document.getElementById("five2").style.display = 'none';
+	document.getElementById("six2").style.display = 'none';
+	document.getElementById("seven2").style.display = 'none';
+	document.getElementById("eight2").style.display = 'none';
+	document.getElementById("nine2").style.display = 'none';
+	
+}
+function make_one(box_num)
+{
+	document.getElementById("one"+box_num).style.display = 'block';
+}
+function make_two(box_num)
+{
+	document.getElementById("two"+box_num).style.display = 'block';
+}
+function make_three(box_num)
+{
+	document.getElementById("three"+box_num).style.display = 'block';
+}
+function make_four(box_num)
+{
+	document.getElementById("four"+box_num).style.display = 'block';
+}
+function make_five(box_num)
+{
+	document.getElementById("five"+box_num).style.display = 'block';
+}
+function make_six(box_num)
+{
+	document.getElementById("six"+box_num).style.display = 'block';
+}
+function make_seven(box_num)
+{
+	document.getElementById("seven"+box_num).style.display = 'block';
+}
+function make_eight(box_num)
+{
+	document.getElementById("eight"+box_num).style.display = 'block';
+}
+function make_nine(box_num)
+{
+	document.getElementById("nine"+box_num).style.display = 'block';
+}
+
+</script>
+
+</head>
+<body bgcolor="#ccddcc">
+<h1> Dice Roller</h1>
+<h4>Click on either die to roll:</h4><br>
+
+<div style="font-size:30px;height:100px;width:100px;border:1px solid black; float:left;">
+	
+	<div id="one1" style="display:none;">
+		<center><h1 style="margin-top:15px;margin-bottom:15px;">•</h1></center>
+	</div>
+	<div id="two1" style="display:none;">
+		<center><h1 style="margin-top:15px;margin-bottom:15px;">• •</h1></center>
+	</div>
+	<div id="three1" style="height:100%; display:none;">
+		<center><h1 style="margin-top:-15px;padding-right:5px;float:right;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:48px;margin-left:3px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-left:35px; margin-top:15px;margin-bottom:15px;">•</h1></center>
+	</div>
+	<div id="four1" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:65px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:65px;">•</h1></center>
+	</div>
+	<div id="five1" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:65px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-20px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:65px;">•</h1></center>
+	</div>
+	<div id="six1" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:20px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:60px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:20px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:60px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:20px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:60px;">•</h1></center><br>
+	</div>
+	<div id="seven1" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:68px;">•</h1></center><br>
+	</div>
+	<div id="eight1" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:68px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:40px;">•</h1>
+	</div>
+	<div id="nine1" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:68px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:40px;">•</h1>
+	</div>
+	
+	
+</div>
+
+<div style="font-size:30px;height:100px;width:100px;border:1px solid black; margin-left:25px;float:left;">
+	<div id="three2" style="height:100%; display:none;">
+		<center><h1 style="margin-top:-15px;padding-right:5px;float:right;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:48px;margin-left:3px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-left:35px; margin-top:15px;margin-bottom:15px;">•</h1></center>
+	</div>
+	
+	
+	<div id="one2" class="one" style="display:none;">
+		<center><h1 style="margin-top:15px;margin-bottom:15px;">•</h1></center>
+	</div>
+	<div id="two2" style="display:none;">
+		<center><h1 style="margin-top:15px;margin-bottom:15px;">• •</h1></center>
+	</div>
+	<div id="four2" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:65px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:65px;">•</h1></center>
+	</div>
+	<div id="five2" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-10px;margin-left:65px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-20px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:15px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top: 3px;margin-left:65px;">•</h1></center>
+	</div>
+	<div id="six2" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:20px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:60px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:20px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:60px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:20px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:60px;">•</h1></center><br>
+	</div>
+	<div id="seven2" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:68px;">•</h1></center><br>
+	</div>
+	<div id="eight2" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:68px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:40px;">•</h1>
+	</div>
+	<div id="nine2" style="display:none;">
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-15px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:40px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-18px;margin-left:68px;">•</h1></center><br>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:12px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:68px;">•</h1></center>
+		<center><h1 style="position:absolute;margin-top:-21px;margin-left:40px;">•</h1>
+	</div>
+	
+	
+</div>
+
+<br><br><br><br><br><br><br>
+<button onclick="rollit()" style="background-color:black;color:white">Click here to roll</button>
+
+<br>
+
+<div>
+The previous 10 rolls were:  
+<span id="numbers">0 0 0 0 0 0 0 0 0</span>
+</div>
+
+
+
+
+<br>
+Roll <input type="text" style="width:50px"> times in a row <button>Go!</button>
+<h2> Roll Statistics:</h2>
+My statistics for a total of 12 rolls:
+<table>
+	<tr style="font-weight:bold">
+		<th> Roll </th>
+		<th> Frequency </th>
+		<th> Percent of Total Rolls</th> 
+	</tr>
+	 
+	<tr style="font-weight:bold">
+		<td> 0 </td>
+		<td> 0 </td>
+		<td> 0 </td> 
+	</tr>
+	<tr style="font-weight:bold">
+		<td> 0 </td>
+		<td> 0 </td>
+		<td> 0 </td> 
+	</tr>
+	<tr style="font-weight:bold">
+		<td> 0 </td>
+		<td> 0 </td>
+		<td> 0 </td> 
+	</tr>
+</table>
+</body>
+</html>

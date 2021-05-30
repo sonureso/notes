@@ -1,0 +1,113 @@
+<html>
+<head>
+<script src="jquery.js"></script> 
+<style>
+/*======== Animations==================== */
+@-webkit-keyframes spin {
+  0% {-webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin_rev {
+  0% {-webkit-transform: rotate(360deg); }
+  100% { -webkit-transform: rotate(0deg); }
+}
+/*******************************************/
+
+.t_w{
+	color:white;
+}
+
+
+.circle1{
+	-webkit-animation: spin_rev 3s linear 0s infinite normal; 
+	transform-origin:0% 50px;  /* 50px can also be used. */
+}
+
+.circle_center{
+	-webkit-animation: spin 12s linear 0s infinite normal; 
+	transform-origin:50% 200px;  /* 50px can also be used. */
+}
+html, body {
+    overflow: hidden;
+}
+</style>
+</head>
+<body bgcolor="#000;" style="margin:0px;">
+
+
+<canvas id="myCanvas" class="t_w" style="position:absolute;top:0;left:0;">	
+</canvas>
+
+</br></br></br></br></br></br></br>
+<center>
+	<div style="height:400px;width:400px;background-color:rgba(255,25,0,0.1);border:2px solid white;border-radius:100%;">
+		<div class="circle_center" style="height:100px;width:100px;background-color:rgba(255,255,255,.5);border:2px solid white;border-radius:100%;">
+			<div id="pw" class="circle1" style="height:5px;width:5px;background-color:black;">
+			</div>
+		</div>
+	<div>
+	
+	
+</center>
+
+</br></br>
+<button onclick="display();"> &check; Click Here </button> 
+
+<script>
+
+function display()
+{
+	var offset = $("#pw").offset();
+	console.log("X ",offset.left.toFixed(1)," | Y: ",offset.top.toFixed(1));
+	
+	//var elem= document.getElementById('pw');
+	//console.log("Clicked.");
+	//$pos = $('#pw').position();
+	//console.log("X ",$pos.left.toFixed(1)," | Y: ",$pos.top.toFixed(1));
+	
+	
+}
+
+
+var canvas = document.getElementById("myCanvas");
+canvas.width = document.body.clientWidth;
+canvas.height = document.body.clientHeight;
+var ctx = canvas.getContext("2d");
+ctx.lineWidth = 3;
+ctx.lineCap = 'round';
+ctx.strokeStyle = '#fdc92b';
+
+
+function draw(x1,y1,x2,y2)
+{
+	ctx.moveTo(x1, y1);
+	ctx.lineTo(x2, y2);
+	ctx.stroke();
+}
+$x1 = 0;
+$y1 = 0;
+$flag = 0;
+function get_xy()
+{
+	//var x = $("#pw").position();
+	var offset = $("#pw").offset();
+	$x2 = offset.left; //x.left;
+	$y2 = offset.top; //x.top;
+	if($flag==1){ draw($x1,$y1,$x2,$y2); }
+	else { $flag = 1; }
+	//console.log("x2 is: ",$x2,", y2: ",$y2);
+	$x1 = $x2;
+	$y1 = $y2;
+	setTimeout(get_xy,10);
+}
+get_xy();
+
+
+
+</script>
+
+
+
+</body>
+</html>

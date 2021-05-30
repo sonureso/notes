@@ -1,0 +1,38 @@
+=====================1. Making List=================================================
+    l =list(11,2,5,list(2,3,5),'Hello',"OK")
+1. length(l)      o/p: 6
+2. l[2]           o/p: 2
+
+=====================2. Creating Matrix=============================================
+matrix(c(3,9,5,1,-2,8),nrow = 3)
+o/p:
+       [,1] [,2]
+[1,]    3    1
+[2,]    9   -2
+[3,]    5    8
+
+======================3. Name elements of list======================================
+1. Create a List of: vector, matrix and list:
+	list_data = list(c("Jan","Feb","Mar"), matrix(c(3,9,5,1,-2,8), nrow = 2),
+                  list("green",12.3))
+2. Naming Elements: names(list_data) = c("1st Quarter", "A_Matrix", "A Inner list")
+	print(list_data$'1st_Quarter')      o/p: "Jan" "Feb" "Mar"
+	print(list_data[1])                o/p: $`1st_Quarter`  / [1] "Jan" "Feb" "Mar"
+
+======================4. Merging Lists==============================================
+l1 = list(1,2,3,5)
+l2 = list(9,8,7,4)
+l3 = c(l1,l2)
+l3
+o/p: all will come.
+
+======================5. Coverting List to Vector====================================
+l1 = list(1,2,3,4,5)
+l2 = list(5,6,7,8,9)
+l3 = unlist(l1)
+l4 = unlist(l2)
+l3+l4            o/p: 6  8 10 12 14
+
+
+ 
+

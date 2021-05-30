@@ -1,0 +1,18 @@
+For: 
+1. T(n) = aT(n/b) + f(n).
+If f(n) = Θ(nd), where d ≥ 0, then
+
+T(n) = Θ(nd) if a < bd,
+T(n) = Θ(ndlog n) if a = bd,
+T(n) = Θ(nlogba) if a > bd.
+
+====================================
+2. T(n) = aT(n/b) + ø((n^k)logpn)
+If a>bk, then T(n) = ∅ (nlogba)
+If a = bk, then
+If p> -1, then T(n) = ∅(nlogba logp+1n)
+If p = -1, then T(n) = ∅(nlogba loglogn)
+If p < -1, then T(n) = ∅(nlogba)
+If a<bk , then
+If p> = 0, then T(n)= ∅(nklogpn)
+If p< 0, then T(n) = ∅(nk)

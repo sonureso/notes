@@ -1,0 +1,78 @@
+=========================1. Vectors===================================
+1. use 'c' to make vectors. c means combine thr data
+	x = c(2,5,8,9,3,4)
+	x[0]         o/p: numeric(0)
+	x[1]	     o/p: 1
+   # access values from index 1.
+   # use length(x) to get length.
+2. x = c(2,5,8,9,3,4,8,55)
+   y = c(1,7)
+   print(x>y)   
+   o/p: TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+
+=========================2. ifelse function============================
+x = c(5,2,5,2,5,6)
+ifelse(x%%2, "even","odd")
+o/p: "even" "odd"  "even" "odd"  "even" "odd"
+SYNTAX: ifelse(condition,true stat...,false stat..)
+
+=========================3. Taking User input===========================
+num <- readline(prompt = "Enter Count: ")
+paste("Your number is ",num)
+#run line by line.
+
+=========================4. For loop=====================================
+for(i in 1:10)
+{
+  print(paste("Value: ",i))
+}
+# or use vector :ex:  for(i in x)
+
+=========================5. While Loop===================================
+i = 1
+while(i<6)
+{
+  print(i)
+  i <- i+1;
+}
+# will print 1 to 5.
+# break; works similar way:   
+# next; is used for continue...
+
+==========================6. Repeat======================================
+i <- 1
+repeat{
+  i = i+1
+  if(i > 4 && i < 7) next
+  print(i)
+  if(i==10) break
+}  
+# repeat is simply while(1) and breaks with break statement.
+
+==========================7. Functions in R ==============================
+pow <- function(x,y) {
+  result <- x^y
+  return (result)
+}
+  
+pow(2,3)
+#o/p: 8
+
+==========================8. Environment==================================
+f <- function(x){
+  x <- 1324
+  print('Inside Function f')
+  print(environment())
+  print(ls())
+}
+-------------------------------------------------------
+o/p:
+[1] "Inside Function f"
+<environment: 0x0000021adc012b80>
+[1] "x"
+--------------------------------------------------------
+# inside function environment if you print ls(): 
+# You'll get name of all functions and variables inside that function.
+
+# if you directly print(ls()): you'll get all global variables and functions and names.
+# you can treat functions similar to variables.

@@ -1,0 +1,30 @@
+=============================1. Multiple Regression===============================
+#format:  y = a + b1x1 + b2x2 +...bnxn
+
+=============================2. Model ============================================
+	# mtcars is predefined dataframe in R.
+	input <- mtcars[,c("mpg","disp","hp","wt")]
+	# Create the relationship model.
+	model <- lm(mpg~disp+hp+wt, data = input)
+	# Show the model.
+	print(model)
+O/p:	(Intercept)         disp           hp           wt  
+           37.105505    -0.000937    -0.031157    -3.800891
+# so equation:   y = 37.105505 + b1*(-0.000937) + b2*(-0.031157) + b3*(-3.800891)
+
+==============================3. Predicting=======================================
+	input <- mtcars[,c("mpg","disp","hp","wt")]
+	# Create the relationship model.
+	model <- lm(mpg~disp+hp+wt, data = input)
+	# Show the model.
+	print(model)
+	
+	getmpg <- function(model,d) {
+	  x <- coef(model)[1] + d[1]*coef(model)[2] + d[2]*coef(model)[3] + d[3]*coef(model)[4]
+ 	 return(x)
+	}
+	d = c(360,175,3.440)
+	getmpg(model,d)
+# making a function to calc mpg.
+
+==============================END OF this part===================================

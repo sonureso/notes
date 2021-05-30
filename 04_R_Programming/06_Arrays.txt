@@ -1,0 +1,78 @@
+===========================1. Creating Arrays===================================
+#can store data in more than two dimensions
+	column.names <- c("COL1","COL2","COL3")
+	row.names <- c("ROW1","ROW2","ROW3")
+	matrix.names <- c("Matrix1","Matrix2")
+	v1 <- c(5,9,3)	
+	v2 <- c(10,11,12,13,14,15)
+	a <- array(c(v1,v2),dim=c(3,3,2),dimnames = list(row.names,column.names,matrix.names))
+	a
+o/p:
+, , Matrix1
+
+     COL1 COL2 COL3
+ROW1    5   10   13
+ROW2    9   11   14
+ROW3    3   12   15
+
+, , Matrix2
+
+     COL1 COL2 COL3
+ROW1    5   10   13
+ROW2    9   11   14
+ROW3    3   12   15
+# dimnames is optional.
+
+============================2. Factors============================================
+1. 	data <- c("East","West","East","North","North","East","West")
+	z = factor(data)
+	z              
+#  o/p: East  West  East  North North East  West 
+	              Levels: East North West
+
+2.Labeling these categorical data:
+	data <- c("East","West","East","North","North","East","West")
+	z = factor(data,labels=c("0","1","2"))
+	z
+#  o/p:   0 2 0 1 1 0 2
+	  Levels: 0 1 2
+# print(length(levels(z)))    o/p: 3
+# length(z)                   o/p: 7
+
+============================3. Factors on DataFrame================================
+#On creating any data frame with a column of text data, 
+#R treats the text column as categorical data and automatically creates factors on it.
+# Create the vectors for data frame.
+height <- c(132,151,162,139,166,147,122)
+weight <- c(48,49,66,53,67,52,40)
+gender <- c("male","male","female","female","male","female","male")
+input_data <- data.frame(height,weight,gender)
+print(input_data)   # will display dataframe
+
+print(is.factor(input_data$gender))    # TRUE
+class(input_data$gender)               # "factor"
+levels(input_data$gender)	       # "female" "male"
+length(levels(input_data$gender))      # 2
+
+============================4. Generating factor levels=============================
+v <- gl(3, 2, labels = c("Tampa", "Seattle","Boston"))
+o/p: [1] Tampa   Tampa   Seattle Seattle Boston  Boston 
+#        Levels: Tampa Seattle Boston
+#gl() function is used
+#gl(n,k,levels = c()..)
+# here n is number of levels and k is iterations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

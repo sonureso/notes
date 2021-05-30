@@ -1,0 +1,4 @@
+===========================1. Installing a Package========================
+1. ex:  install.packages("XML")
+2. check by:   library()
+

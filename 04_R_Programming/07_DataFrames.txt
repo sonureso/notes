@@ -1,0 +1,107 @@
+=========================1. Making DataFrames===================================
+1.	df = data.frame(book_name = c('book1','book2','book3'),
+        	        book_price = c(250,150,210),
+       		        book_author = c('Arjun','Karan','Kohli'),
+        	        pub_date = as.Date(c('2012-01-01','2013-09-23','2014-11-15')),
+			stringsAsFactors = FALSE)
+	df
+o/p:
+	  book_name book_price book_author   pub_date
+	1     book1        250       Arjun 2012-01-01
+	2     book2        150       Karan 2013-09-23
+	3     book3        210       Kohli 2014-11-15
+o/p:
+	print(class(df$book_name))    :"character"
+	# this could be factor if 'stringsAsFactors = TRUE.'
+
+=========================2.Getting Structure of df================================
+1. str(df)
+o/p:      'data.frame':	3 obs. of  4 variables:
+	 $ book_name  : chr  "book1" "book2" "book3"
+	 $ book_price : num  250 150 210
+	 $ book_author: chr  "Arjun" "Karan" "Kohli"
+	 $ pub_date   : Date, format: "2012-01-01" "2013-09-23" ...
+
+=========================3. Getting Summary of the data=============================
+1. print(summary(df))
+o/p:   
+	book_name           book_price    book_author           pub_date         
+ 	Length:3           Min.   :150.0   Length:3           Min.   :2012-01-01  
+ 	Class :character   1st Qu.:180.0   Class :character   1st Qu.:2012-11-11  
+ 	Mode  :character   Median :210.0   Mode  :character   Median :2013-09-23  
+  	                   Mean   :203.3                       Mean   :2013-07-14  
+   	                   3rd Qu.:230.0                        3rd Qu.:2014-04-20  
+   	                   Max.   :250.0                        Max.   :2014-11-1
+
+=========================4. Accessing Data===========================================
+1.	df[rows,cols]
+	df[1:2,1:2]
+o/p:   
+	      book_name book_price
+	1     book1        250
+	2     book2        150
+
+2.	#extracting part of df
+	data <- data.frame(df$book_name,df$book_price)
+o/p:	  df.book_name df.book_price
+        1        book1           250
+        2        book2           150
+        3        book3           210	
+
+	#accessing specific rows and columns
+	df[c(1,3),c(1,3)]
+o/p:	
+	  book_name book_author
+	1     book1       Arjun
+	3     book3       Kohli
+
+=========================5. Adding Data=====================================
+1. Adding Columns:
+	df$type <- c('News','Art','Magic')
+
+
+2. Adding Rows:
+	a) Create a dataframe in similar format
+	b) df3 = rbind(df,df2)
+# Using rbind() method we can append rows to a dataframe
+# You can use cbind for adding columns as well:
+	owner = c('Tata','Zee','Ola')
+	df = cbind(df,owner,....)
+# You can add multiple columns in one go with this.
+
+==========================6. Merging DataFrames=============================
+# We can merge two data frames by using the merge() function. 
+# The data frames must have same column names on which the merging happens.
+ex: 
+	library(MASS)
+	merged.Pima <- merge(x = Pima.te, y = Pima.tr,
+  	  by.x = c("bp", "bmi"),
+	  by.y = c("bp", "bmi")
+	)
+	print(merged.Pima)
+	nrow(merged.Pima)
+# this will merge rows having same value of bp and bmi.
+# and create following columns:
+	bp  bmi npreg.x glu.x skin.x ped.x age.x type.x
+	npreg.y	glu.y skin.y ped.y age.y type.y
+
+==========================7. Melting and Casting=============================
+# Melting will melt all data in one columns except constants
+ex: molten.ships <- melt(ships, id = c("type","year"))
+# it will keep cols: type and year intact but make all columns to appear in one
+# columns i.e., variable.
+
+# Casting is reverse of melting. it will make seperate cols for non constants based on
+# similar values.
+ex: recasted.ship <- cast(molten.ships, type+year~variable,sum)
+# here type and year are constants.
+
+
+=========================END of this part=================================================
+
+
+
+
+
+
+

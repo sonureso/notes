@@ -1,0 +1,181 @@
+======================SQL_Basic_Queries================================================
+======================1. Select========================================================
+	a) SELECT CustomerName, City FROM Customers;
+	b) SELECT COUNT(DISTINCT Country) FROM Customers;		OR		
+	b) SELECT Count(*) AS DistinctCountries FROM (SELECT DISTINCT Country FROM Customers);
+
+======================2. Where / LIKE=========================================================
+	a) SELECT * FROM Customers WHERE CustomerID=1;
+		options: 	=, >, <, <=, >=, <>, BETWEEN, LIKE, IN
+	b) SELECT * FROM Customers WHERE City LIKE 's_a%';
+		# select starting with 's', 3rd as 'a' and anything after that.
+	c) SELECT * FROM Customers WHERE City LIKE '[bsp]%';
+		# cities with name starting with b or s or p.
+	d) SELECT * FROM Customers WHERE City LIKE '[!bsp]%';    OR
+	d) SELECT * FROM Customers WHERE City NOT LIKE '[bsp]%';
+	
+======================3. AND/OR/NOT=====================================================
+	a) SELECT * FROM Customers WHERE Country='Germany' AND City='Berlin';
+	b) SELECT * FROM Customers WHERE City='Berlin' OR City='München';
+	c) SELECT * FROM Customers WHERE NOT Country='Germany';       #selecting where country is not 'Germany'
+	d) SELECT * FROM Customers WHERE NOT Country='Germany' AND NOT Country='USA';
+	
+======================4. Order By========================================================
+	a) SELECT * FROM Customers ORDER BY Country DESC;
+	b) SELECT * FROM Customers ORDER BY Country, CustomerName;
+	c) SELECT * FROM Customers ORDER BY Country ASC, CustomerName DESC;
+	
+======================5. Insert Into=====================================================
+	a) INSERT INTO Customers (CustomerName, City, Country) VALUES ('Cardinal', 'Stavanger', 'Norway');
+	b) INSERT INTO table_name VALUES (value1, value2, value3, ...);       # if  inserting all columns values.
+	
+======================6. Null Values=====================================================
+	a) SELECT CustomerName, ContactName, Address FROM Customers WHERE Address IS NULL;
+	b) SELECT CustomerName, ContactName, Address FROM Customers WHERE Address IS NOT NULL;
+	
+======================7. Update Statement================================================
+	a) UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+	b) UPDATE Customers SET ContactName='Juan' WHERE Country='Mexico';
+
+======================8. Delete Statement================================================
+	a) DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+	b) DELETE FROM Customers;			#Delete all records.
+
+======================9. TOP/LIMIT/ROWNUM================================================
+	a) SQL Server / MS Access Syntax:   SELECT TOP 3 * FROM Customers;
+	b) MySQL Syntax: SELECT * FROM Customers LIMIT 3;
+	c) Oracle Syntax: SELECT * FROM Customers WHERE ROWNUM <= 3;
+	d) first 50% of the records: SELECT TOP 50 PERCENT * FROM Customers;
+	e) SELECT * FROM Customers WHERE Country='Germany' LIMIT 3;
+	f) SELECT * FROM Customers WHERE Country='Germany' AND ROWNUM <= 3;
+
+======================10. Min, Max, count, avg, sum======================================================
+	a) SELECT MIN(Price) AS SmallestPrice FROM Products;
+	b) SELECT MAX(Price) AS LargestPrice FROM Products;
+	c) SELECT COUNT(ProductID) FROM Products;
+	d) SELECT AVG(Price) FROM Products;
+	e) SELECT SUM(Quantity) FROM OrderDetails;
+	
+=====================11. In Operator====================================================================
+	a) SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK');
+	b) SELECT * FROM Customers WHERE Country NOT IN ('Germany', 'France', 'UK');
+	c) SELECT * FROM Customers WHERE Country IN (SELECT Country FROM Suppliers);
+	
+====================12. BETWEEN=========================================================================
+	a) SELECT * FROM Products WHERE Price BETWEEN 10 AND 20;
+	b) SELECT * FROM Products WHERE Price NOT BETWEEN 10 AND 20;
+	c) SELECT * FROM Products WHERE Price BETWEEN 10 AND 20 AND NOT CategoryID IN (1,2,3);
+	d) SELECT * FROM Products WHERE ProductName BETWEEN 'Carnarvon Tigers' AND 'Mozzarella di Giovanni' ORDER BY ProductName;
+	e) SELECT * FROM Products WHERE ProductName NOT BETWEEN 'Carnarvon Tigers' AND 'Mozzarella di Giovanni' ORDER BY ProductName;
+	f) SELECT * FROM Orders WHERE OrderDate BETWEEN #01/07/1996# AND #31/07/1996#;        OR
+	f) SELECT * FROM Orders WHERE OrderDate BETWEEN '1996-07-01' AND '1996-07-31';
+	
+====================13. Aliases==========================================================================
+	a) SELECT CustomerName AS Customer, ContactName AS [Contact Person] FROM Customers;
+	b) SELECT CustomerName, Address + ', ' + PostalCode + ' ' + City + ', ' + Country AS Address FROM Customers;
+	c) SELECT CustomerName, CONCAT(Address,', ',PostalCode,', ',City,', ',Country) AS Address FROM Customers;
+	d) SELECT o.OrderID, o.OrderDate, c.CustomerName FROM Customers AS c, Orders AS o WHERE c.CustomerName="Around the Horn" AND c.CustomerID=o.CustomerID;
+	
+====================14. Inner Joins======================================================================
+	a) SELECT Orders.OrderID, Customers.CustomerName FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
+	b) SELECT Orders.OrderID, Customers.CustomerName, Shippers.ShipperName FROM 
+		((Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID)
+		INNER JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID);
+
+====================15. Left | Right | Full | Self Join========================================================================
+	a) SELECT Customers.CustomerName, Orders.OrderID FROM Customers
+		LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+		ORDER BY Customers.CustomerName;
+	b) SELECT Orders.OrderID, Employees.LastName, Employees.FirstName FROM Orders
+		RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
+		ORDER BY Orders.OrderID;
+	c) SELECT Customers.CustomerName, Orders.OrderID FROM Customers
+		FULL OUTER JOIN Orders ON Customers.CustomerID=Orders.CustomerID
+		ORDER BY Customers.CustomerName;
+	d) SELECT A.CustomerName AS CustomerName1, B.CustomerName AS CustomerName2, A.City FROM Customers A, Customers B
+		WHERE A.CustomerID <> B.CustomerID AND A.City = B.City ORDER BY A.City;
+	
+===================16. Union Operator==========================================================================================
+	a) SELECT City FROM Customers UNION SELECT City FROM Suppliers ORDER BY City;
+		# return all unique cities.
+	b) SELECT City FROM Customers UNION ALL SELECT City FROM Suppliers ORDER BY City;
+		# return all cities (even repeating)
+	c) SELECT City, Country FROM Customers WHERE Country='Germany' UNION 
+		SELECT City, Country FROM Suppliers WHERE Country='Germany' ORDER BY City;
+	d) SELECT City, Country FROM Customers WHERE Country='Germany' UNION ALL
+		SELECT City, Country FROM Suppliers WHERE Country='Germany' ORDER BY City;
+	e) SELECT 'Customer' As Type, ContactName, City, Country FROM Customers UNION
+		SELECT 'Supplier', ContactName, City, Country FROM Suppliers;
+		
+===================17. Group By================================================================================================
+	a) SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country ORDER BY COUNT(CustomerID) DESC;
+		The following SQL statement lists the number of orders sent by each shipper:
+	b) SELECT Shippers.ShipperName, COUNT(Orders.OrderID) AS NumberOfOrders FROM Orders
+		LEFT JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID GROUP BY ShipperName;
+		
+===================18. HAVING Clause===========================================================================================
+	a) SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country
+		HAVING COUNT(CustomerID) > 5 ORDER BY COUNT(CustomerID) DESC;
+
+===================19. Exists==================================================================================================
+	a) SELECT SupplierName FROM Suppliers WHERE EXISTS 
+		(SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+		
+===================20. ANY | ALL===============================================================================================
+		# The ANY and ALL operators are used with a WHERE or HAVING clause.
+	a) SELECT ProductName FROM Products WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+		# The ALL operator returns TRUE if all of the subquery values meet the condition
+	b) SELECT ProductName FROM Products WHERE ProductID = ALL (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+	
+==================21. Select into==============================================================================================
+		#The SELECT INTO statement copies data from one table into a new table.
+	a) SELECT * INTO CustomersBackup2017 FROM Customers;
+	b) SELECT * INTO CustomersGermany FROM Customers WHERE Country = 'Germany';
+	c) SELECT Customers.CustomerName, Orders.OrderID INTO CustomersOrderBackup2017
+		FROM Customers LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+		# for replicate schema:
+	d) SELECT * INTO new_table FROM old_table WHERE 1 = 0;
+
+==================22. INSERT INTO SELECT=======================================================================================
+	a) INSERT INTO Customers (CustomerName, City, Country) SELECT SupplierName, City, Country FROM Suppliers;
+	b) INSERT INTO Customers (CustomerName, City, Country) SELECT SupplierName, City, Country FROM Suppliers WHERE Country='Germany';
+		
+==================23. Case Statement===========================================================================================
+	a) SELECT OrderID, Quantity,
+		CASE
+			WHEN Quantity > 30 THEN "The quantity is greater than 30"
+			WHEN Quantity = 30 THEN "The quantity is 30"
+			ELSE "The quantity is under 30"
+		END AS QuantityText FROM OrderDetails;
+	b) SELECT CustomerName, City, Country
+		FROM Customers ORDER BY
+		(CASE
+			WHEN City IS NULL THEN Country
+			ELSE City
+		END);
+
+==================24. IFNULL | ISNULL | COALESCE | NVL ========================================================================
+		# for MYSQL:
+	a) SELECT ProductName, UnitPrice * (UnitsInStock + IFNULL(UnitsOnOrder, 0)) FROM Products;     OR
+	a) SELECT ProductName, UnitPrice * (UnitsInStock + COALESCE(UnitsOnOrder, 0)) FROM Products;  
+		# for SQL Server:
+	b) SELECT ProductName, UnitPrice * (UnitsInStock + ISNULL(UnitsOnOrder, 0)) FROM Products;
+		# for MS Access:
+	c) SELECT ProductName, UnitPrice * (UnitsInStock + IIF(IsNull(UnitsOnOrder), 0, UnitsOnOrder)) FROM Products;
+		# for Oracle:
+	d) SELECT ProductName, UnitPrice * (UnitsInStock + NVL(UnitsOnOrder, 0)) FROM Products;
+		
+==================25. Stored Procedures=========================================================================================
+	a) CREATE PROCEDURE SelectAllCustomers AS SELECT * FROM Customers GO;
+		===> Use this as:    EXEC SelectAllCustomers;
+	b) CREATE PROCEDURE SelectAllCustomers @City nvarchar(30) AS SELECT * FROM Customers WHERE City = @City GO;
+		===> EXEC SelectAllCustomers @City = "London";
+	c) CREATE PROCEDURE SelectAllCustomers @City nvarchar(30), @PostalCode nvarchar(10) AS
+			SELECT * FROM Customers WHERE City = @City AND PostalCode = @PostalCode GO;
+		===> EXEC SelectAllCustomers @City = "London", @PostalCode = "WA1 1DP";
+		
+==================26. Comments=================================================================================================
+	1. Single Line Comment: 		-- Commets here
+	2. Multiline Comments:			/* Comments here    */
+	
+======================================END OF THIS PART=========================================================================

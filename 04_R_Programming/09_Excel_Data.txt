@@ -1,0 +1,38 @@
+===============================1. Setting path==============================
+1. Get current directory:
+	getwd()    : will return current directory
+	setwd('location/location'):  set current directory
+
+===============================2. Reading CSV===============================
+1.   df = read.csv('data.csv')
+2.   df[1:3,1]    : will display 3 rows of first columns
+3.   ncol(df)     : will display number of columns
+4.   nrow(df)     : will display number of rows
+5.   max(df$Credit.Rating)  : will display max credit_rating
+6.   min(df$Credit.Rating)  : will display min credit_rating
+
+7.   Getting subset of df with condition:
+	a) subset(df, Credit.Rating == max(df$Credit.Rating))
+	b) nrow(subset(df, cluster == 2))   : number of rows with cluster 2.
+	c) nrow(subset(df, cluster == 2 & Credit.Rating > 633))   : using multiCondition.
+	d) nrow(subset(df, cluster == 2 | cluster == 0))   : both cluster 0 and 2
+	e) subset(data, as.Date(start_date) > as.Date("2014-01-01"))
+
+================================3. Writing a File=============================
+1. write.csv(a,'new.csv',row.names = FALSE)
+
+================================4. Reading Xlsx file==========================
+# Using xlsx package:
+*this is not working but may work.
+1. First install : install.packages("xlsx")
+2. check : library()
+3. load to program: library("xlsx")
+4. Read file: data <- read.xlsx("data2.xlsx", sheetIndex = 1)
+
+------------------------------------------------------------------------
+# Using readxl package:
+1. First install: install.packages('readxl')
+2. load : library("readxl")
+3. Use: products <- read_excel(filename, sheet = 1,range = cell_rows(1:1001))
+4. for more info see pdf.
+OR Follow: http://www.sthda.com/english/wiki/reading-data-from-excel-files-xls-xlsx-into-r

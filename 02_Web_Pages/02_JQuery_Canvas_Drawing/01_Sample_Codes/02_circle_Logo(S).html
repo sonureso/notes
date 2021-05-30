@@ -1,0 +1,104 @@
+<html>
+<head>
+<script src="jquery.js"></script> 
+<style>
+/*======== Animations==================== */
+@-webkit-keyframes spin {
+  0% {-webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin_rev {
+  0% {-webkit-transform: rotate(360deg); }
+  100% { -webkit-transform: rotate(0deg); }
+}
+
+@-webkit-keyframes square {
+    0% { transform : translateY(0em) translateX(0em) ; }
+    25% { transform : translateY(6em) translateX(0em) ; } 
+    50% { transform : translateY(6em) translateX(6em) ; } 
+	75% { transform : translateY(0em) translateX(6em) ; }
+	100% { transform : translateY(0em) translateX(0em) ; }
+}
+/*******************************************/
+
+.t_w{
+	color:white;
+}
+
+.circle1{
+	-webkit-animation: spin_rev 3s 0s infinite normal; 
+	transform-origin:50% 50px; 
+}
+
+.circle_center{
+	-webkit-animation: spin 9s linear 0s infinite normal; 
+	transform-origin:50% 100px; 
+}
+
+.circle2{
+	-webkit-animation: spin 6s linear 0s infinite normal; 
+	transform-origin:50% 150px;  
+}
+
+.move{
+	-webkit-animation: square 12s linear 0s infinite normal; 
+}
+
+html, body {
+    overflow: hidden;
+}
+</style>
+</head>
+<body bgcolor="#000;" style="margin:0px;">
+<canvas id="myCanvas" class="t_w" style="position:absolute;top:0;left:0;">	
+</canvas>
+</br></br></br></br></br></br>
+<center>
+	<div class="circle2 move.." style="height:200px;width:200px;background-color:rgba(255,25,0,0.1);border:2px solid white;border-radius:100%;">
+		<div class="circle_center" style="height:100px;width:100px;background-color:rgba(255,255,255,.2);border:2px solid white;border-radius:100%;">
+			<div id="pw" class="circle1" style="height:5px;width:5px;background-color:black;">
+			</div>
+		</div>
+	<div>
+</center>
+
+</br></br>
+<button onclick="display();"> &check; Click Here </button> 
+<script>
+function display()
+{
+	var offset = $("#pw").offset();
+	console.log("X ",offset.left.toFixed(1)," | Y: ",offset.top.toFixed(1));
+}
+var canvas = document.getElementById("myCanvas");
+canvas.width = document.body.clientWidth;
+canvas.height = document.body.clientHeight;
+var ctx = canvas.getContext("2d");
+ctx.lineWidth = 1;
+ctx.lineCap = 'round';
+ctx.strokeStyle = '#fdc92b';
+function draw(x1,y1,x2,y2)
+{
+	ctx.moveTo(x1, y1);
+	ctx.lineTo(x2, y2);
+	ctx.stroke();
+}
+$x1 = 0;
+$y1 = 0;
+$flag = 0;
+function get_xy()
+{
+	var offset = $("#pw").offset();
+	$x2 = offset.left; //x.left;
+	$y2 = offset.top; //x.top;
+	if($flag==1){ draw($x1,$y1,$x2,$y2); }
+	else { $flag = 1; }
+	$x1 = $x2;
+	$y1 = $y2;
+	setTimeout(get_xy,30);
+}
+get_xy();
+</script>
+</body>
+</html>

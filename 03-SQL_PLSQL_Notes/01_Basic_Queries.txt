@@ -1,4 +1,31 @@
 ======================SQL_Basic_Queries================================================
+TOPICS:
+1. SELECT
+2. WHERE
+3. AND/OR/NOT
+4. ORDER BY
+5. INSERT INTO
+6. NULL VALUE
+7. UPDATE STATEMENTS
+8. DELETE STATEMENTS
+9. TOP/LIMIT/ROWNUM
+10. MIN/MAX/COUNT/AVG/SUM
+11. IN OPERATOR
+12. BETWEEN
+13. ALIASES
+14. INNER JOIN
+15. LEFT/RIGHT/FULL/SELF JOIN
+16. UNION OPERATOR
+17. GROUP BY
+18. HAVING CLAUSE
+19. EXISTS
+20. ANY/ALL
+21. SELECT INTO
+22. INSERT INTO SELECT
+23. CASE STATEMENT
+24. IFNULL/ISNULL/COALESCE/NVL
+25. STORED PROCEDURE
+26. COMMENTS
 ======================1. Select========================================================
 	a) SELECT CustomerName, City FROM Customers;
 	b) SELECT COUNT(DISTINCT Country) FROM Customers;		OR		
@@ -16,7 +43,7 @@
 	
 ======================3. AND/OR/NOT=====================================================
 	a) SELECT * FROM Customers WHERE Country='Germany' AND City='Berlin';
-	b) SELECT * FROM Customers WHERE City='Berlin' OR City='München';
+	b) SELECT * FROM Customers WHERE City='Berlin' OR City='MÃ¼nchen';
 	c) SELECT * FROM Customers WHERE NOT Country='Germany';       #selecting where country is not 'Germany'
 	d) SELECT * FROM Customers WHERE NOT Country='Germany' AND NOT Country='USA';
 	

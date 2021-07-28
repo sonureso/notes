@@ -26,6 +26,7 @@ TOPICS:
 24. IFNULL/ISNULL/COALESCE/NVL
 25. STORED PROCEDURE
 26. COMMENTS
+27. USING INDEX
 ======================1. Select========================================================
 	a) SELECT CustomerName, City FROM Customers;
 	b) SELECT COUNT(DISTINCT Country) FROM Customers;		OR		
@@ -204,5 +205,13 @@ TOPICS:
 ==================26. Comments=================================================================================================
 	1. Single Line Comment: 		-- Commets here
 	2. Multiline Comments:			/* Comments here    */
+	
+==================27. USING INDEX===============================================================================================
+	a). CREATE INDEX:  CREATE INDEX INDEX_NAME ON TABLE_NAME(COL1,COL2);
+	b). SHOW INDEX:  SHOW INDEX FROM TABLE_NAME;
+	c). DROP INDEX:  DROP INDEX INDEX_NAME ON TABLE_NAME;
+	d). Types of INDEXING:   1. Primary (Dense indexing & Sparse Indexing): Based on primary column 
+				 2. Clustering: This is based on some non-unique column.
+				 3. Secondary Indexing: This will have two index table, first pointing to second and seconding pointing to main table.
 	
 ======================================END OF THIS PART=========================================================================

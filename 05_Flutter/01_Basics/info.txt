@@ -1,0 +1,13 @@
+1. Adding assets/images.
+2. Creating List view.  
+3. Passing the arguments in classes.
+
+#========01. Adding Assets:==========================#
+a) For adding images, create a folder and save the image:  assets/images/image1.png
+b) Update the same in pubspecs.yaml
+c) Access the image as: Image.asset("assets/appimages/" + image_name),
+#========02. Creating List view.=====================#
+Analyse from the Dart code.
+#========03. Passing the arguments in classes.=======#
+Analyse from the Dart code.
+

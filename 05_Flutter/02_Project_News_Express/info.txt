@@ -1,0 +1,17 @@
+All .dart files are attached along with pubspecs.yaml.
+Point to be noted:
+=========================================================
+1. Flutter may not render web images, so try running with below command:
+	flutter run -d chrome --web-renderer html
+=========================================================
+2. Before building the apk,please add internet permission to the android manifest.
+	a) Go to: andoid/app/src/main/AndroidManifest.xml
+	b) Add a line just below: <manifest...>
+	c) add this:-  <uses-permission android:name="android.permission.INTERNET"/>
+=========================================================
+3. To generate the apk, run the below command:
+	flutter build apk
+==========================================================
+4. If you are recreating the app with the attached code, then 
+	don't forget to add all mention packages in pubspecs.yaml
+====================THANKS================================

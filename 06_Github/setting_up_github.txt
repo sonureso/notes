@@ -1,0 +1,4 @@
+### Setting up github on laptop. ###############
+================================================
+1. Just install git from here:  https://git-scm.com/downloads -> set cmd as console.
+2. 

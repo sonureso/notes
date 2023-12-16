@@ -1,4 +1,4 @@
 ### Setting up github on laptop. ###############
 ================================================
 1. Just install git from here:  https://git-scm.com/downloads -> set cmd as console.
-2. 
+2. And now you can clone your Github repo to your local computer.

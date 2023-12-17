@@ -1,0 +1,63 @@
+• Definition:
+Azure Data Factory (ADF) is a cloud-based data integration service from Microsoft Azure. 
+It allows users to create, schedule, and manage data pipelines that move and transform data 
+between different data stores and data processing environments.
+ADF doesn't store any data itself. It comes with pre-built connectors, making it a good 
+solution for hybrid Extract-Transform-Load (ETL), Extract-Load-Transform (ELT), and other 
+Data Integration pipelines. In ADF, users create pipelines in the GUI
+
+• ADF is made up of the following key components: 
+Pipelines, Activities, Datasets, Linked services, Data Flows, Integration Runtimes.
+
+• Azure Data Factory Interview Questions and Answer:
+1. What is Azure Data Factory (ADF)?
+Answer: Azure Data Factory is a cloud-based data integration service provided by Microsoft Azure.
+It allows you to create, schedule, and manage data pipelines that can move data between supported 
+on-premises and cloud-based data stores.
+
+2. Explain the key components of Azure Data Factory.
+Answer: The key components of Azure Data Factory include:
+Datasets: Represent the data structures within the data stores.
+Linked Services: Define the connection information to the data stores.
+Pipelines: Logical grouping of activities that perform a task.
+
+3. What is a Linked Service in Azure Data Factory?
+Answer: A Linked Service in Azure Data Factory defines the connection information to external data 
+sources or destinations. It contains the necessary details like connection strings, authentication 
+credentials, and other settings required to connect to the data store.
+
+4. Differentiate between Data Flow and Control Flow in Azure Data Factory.
+Answer: Data Flow: It defines the data transformation activities and the flow of data from source to destination. 
+It includes transformations such as filter, aggregate, join, and more.
+Control Flow: It orchestrates and controls the execution of various activities within the pipeline. 
+It includes tasks like data movement, data transformation, and data processing.
+
+5. How can you monitor and manage Azure Data Factory?
+Answer: Azure Data Factory provides monitoring through Azure Monitor, where you can view pipeline runs, 
+trigger runs manually, and monitor data integration performance. Additionally, you can use Azure Data 
+Factory's portal to explore and manage your data pipelines.
+
+6. What is the purpose of the Integration Runtime in Azure Data Factory?
+Answer: Integration Runtime (IR) in Azure Data Factory is responsible for the execution of data movement 
+and data transformation activities across different network environments. It enables communication between 
+Azure Data Factory and supported data stores.
+
+7. How can you parameterize the Azure Data Factory pipeline?
+Answer: You can use parameters to make your pipeline dynamic. Parameters allow you to pass values at runtime, 
+making it easy to reuse and parameterize the pipeline for different scenarios.
+
+8. Explain the concept of Azure Data Factory triggers.
+Answer: Triggers in Azure Data Factory define when a pipeline should be executed. There are two types of 
+triggers: Schedule Triggers (based on time) and Event Triggers (based on events like the arrival of new data 
+or completion of a previous pipeline run).
+
+9. What are the differences between Azure Data Factory and Azure Logic Apps?
+Answer: Azure Data Factory is primarily focused on data integration and ETL processes, moving and transforming 
+data. Azure Logic Apps, on the other hand, is designed for workflow automation, allowing you to orchestrate 
+and automate processes across different systems and services.
+
+10. Can you deploy Azure Data Factory across multiple regions?
+- Answer: Yes, you can deploy Azure Data Factory across multiple regions to ensure high availability and 
+resilience. This is achieved by configuring the necessary infrastructure components, such as Integration 
+Runtimes, in different Azure regions.
+

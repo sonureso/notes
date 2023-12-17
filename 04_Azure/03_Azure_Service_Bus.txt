@@ -1,0 +1,67 @@
+• Definition:
+-> Azure Service Bus is a cloud-based messaging service that enables communication between applications, 
+devices, and services. It's a fully managed enterprise message broker that uses message queues and 
+publish-subscribe topics.
+-> Azure Service Bus is used for event-driven data processing, where data is transmitted between 
+applications asynchronously. It supports messaging patterns such as publish-subscribe, request-response, 
+and queuing. It is optimized for low-latency messaging, with sub-millisecond latency for message delivery. 
+It also provides high throughput and low message loss rates.
+-> Azure Service Bus is widely used to securely connect distributed applications. It removes the dependency 
+between the sender and consumer, and anyone can be taken offline without disturbing the overall communication.
+It is a serverless messaging mechanism available in Microsoft Azure. As this is an serverless offering, this 
+mechanism provides better efficiency.
+=========================================================================================================
+• Azure Service Bus interview questions and answers:
+
+1. What is Azure Service Bus?
+Answer: Azure Service Bus is a cloud messaging service provided by Microsoft Azure, which enables communication 
+between distributed applications and services. It supports messaging patterns such as publish/subscribe, queuing, 
+and point-to-point communication.
+
+2. What are the key features of Azure Service Bus?
+Answer: Key features of Azure Service Bus include:
+Message Queues: Supports reliable messaging using queues.
+Topics and Subscriptions: Enables publish/subscribe communication.
+Reliable Messaging: Ensures message delivery with at-least-once delivery semantics.
+Dead Lettering: Automatically moves failed messages to a dead-letter queue for analysis.
+
+3. Explain the difference between Azure Service Bus Queues and Topics.
+Answer: 
+Queues: Follows a point-to-point messaging pattern, where a message is delivered to a single consumer.
+Topics: Enable publish/subscribe pattern, where messages are sent to a topic and multiple subscribers 
+(subscriptions) can receive messages.
+
+4. What is a Brokered Messaging API in Azure Service Bus?
+Answer: The Brokered Messaging API in Azure Service Bus provides a higher level of abstraction for 
+working with messages. It includes features like transactions, sessions, and sophisticated 
+publish/subscribe capabilities.
+
+5. How does Azure Service Bus handle message durability?
+Answer: Azure Service Bus ensures message durability through features like message persistence and storage 
+redundancy. Messages are persisted to provide reliable delivery, and storage redundancy options 
+(Standard or Premium) offer different levels of fault tolerance.
+
+6. What is the purpose of a Dead-Letter Queue in Azure Service Bus?
+Answer: The Dead-Letter Queue (DLQ) in Azure Service Bus is a queue where messages that cannot be delivered 
+successfully are automatically moved. This allows developers to analyze and address the reasons for message 
+failures.
+
+7. Explain the concept of Sessions in Azure Service Bus.
+Answer: Sessions in Azure Service Bus allow related messages to be grouped together and processed by the 
+same consumer. It's useful when there is a need to maintain order or state across a series of related messages.
+
+8. How does Azure Service Bus handle message ordering?
+Answer: Azure Service Bus provides ordering at the session level. Messages within a session are guaranteed 
+to be processed in the order they are sent. However, this ordering is not guaranteed across different sessions.
+
+9. What is the purpose of the Azure Service Bus Relay?
+Answer: The Azure Service Bus Relay allows communication between services across different network boundaries, 
+such as between on-premises and cloud environments. It enables secure and seamless communication without 
+requiring direct connectivity.
+
+10. How can you secure communication in Azure Service Bus?
+Answer: Azure Service Bus supports security features such as Shared Access Signatures (SAS) and Azure Active 
+Directory (Azure AD) authentication. These mechanisms ensure secure communication and access control to Service
+Bus resources.
+
+

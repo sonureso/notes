@@ -1,0 +1,73 @@
+1. Connnecting to Databricks DBFS. 
+2. Connecting to DB2 Database tables. 
+3. Connecting to ADLS Account Container.
+4. Connection Azure SQL Server.
+5. Writing data to ADLS Container.
+
+==============================================================================================
+1. Connnecting to Databricks DBFS.
+    path = "dbfs:/FileStore/folder/subfolder../"
+    df = spark.read.parquet(path, header=True, inferSchema=True)
+    print(df.columns[:2])
+==============================================================================================
+2. Connecting to DB2 Database tables. 
+    def query_db2(user, password, url, db, query):
+        jdbc_url = "jdbc:db2://"+url+"/"+db
+        df = (spark.read.format("jdbc")
+            .option("url", jdbc_url)
+            .option("driver", "com.ibm.db2.jcc.DB2Driver")
+            .option("user", user)
+            .option("password", password)
+            .option("query", query).load()
+            )
+        return df
+
+    ## Query DB2 with below details:
+    url = "10.***.***.**:50022"
+    db = "<dbname>"
+    user = "<user>"
+    password = "<password>"
+    table = "<tablename>"
+    query = f"SELECT * FROM {table}" ## or {schemaname}.{table}
+
+    df = query_db2(user, password, url, db, query)
+    display(df)
+==============================================================================================
+3. Connecting to ADLS Account Container.
+    def connect_to_adls(container_name, storage_account_key, storage_secret_key):
+        storage_account = dbutils.secrets.get(scope="<key-vault-scope-name>", key=storage_account_key)
+        storage_secret = dbutils.secrets.get(scope="<key-vault-scope-name>", key=storage_secret_key)
+        account_key = f"fs.azure.account.key.{storage_account}.dfs.core.windows.net"
+        spark.conf.set(account_key, storage_secret)
+        prefix = f"abfss://{container_name}@{storage_account}.dfs.core.windows.net/"
+        return prefix
+    
+    prefix = connect_to_adls(container_name, storage_account_key, storage_secret_key)
+    myfilepath_in_adls = prefix+"Folder/subfolder.../filename.txt"
+==============================================================================================  
+4. Connection Azure SQL Server.
+    def query_azure_sql_server(user, password, host, db, query):
+        url = f"jdbc:sqlserver://{host}.database.windows.net:1433;databaseName={db};"
+        df = spark.read.format("com.microsoft.sqlserver.jdbc.spark") \
+            .option("url", url) \
+            .option("user", user) \
+            .option("password", password) \
+            .option("query", query).load()
+        return df
+
+    df = query_azure_sql_server(user, password, host, db, query)
+==============================================================================================
+5. Writing data to ADLS Container.
+    prefix = connect_to_adls("<container_name>", "<storage_account_key>", "<storage_secret_key>")
+    output_path = prefix+"Folder/subfolder/.../project/"
+    ## Writing as parquet file:
+    df.coalesce(1).write.mode("overwrite").parquet(output_path)
+    ## Writing as csv file:
+    df.coalesce(1).write.option("header", True).csv(output_path)
+==============================================================================================
+
+
+
+
+
+

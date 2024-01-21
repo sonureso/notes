@@ -1,0 +1,103 @@
+0. Important links and references.
+1. Import statements.
+2. Sending a single message to service bus topic.
+3. Sending a batch of messages to service bus topic.
+4. Receiving messages from service bus topic.
+5. Application properties of a message service bus topic.
+6. Use-Case: Convert df rows into dict and send each dict as a message to service-bus.
+7. Other important points to know.
+
+==============================================================================================
+0. Important links and references.
+    1. Azure Servicebus package documentation: https://azuresdkdocs.blob.core.windows.net/$web/python/azure-servicebus/latest/azure.servicebus.html
+    2. We can not have a batch of size 1 MB: https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-troubleshooting-guide#:~:text=of%20ServiceBusMessage%20instances.-,Batch%20fails%20to%20send,-A%20message%20batch
+    3. 
+==============================================================================================
+1. Import statements.
+    %pip install azure-servicebus
+    from azure.servicebus import ServiceBusClient, ServiceBusMessage, ServiceBusSender
+    import json
+==============================================================================================
+2. Sending a single message to service bus topic.
+    CONNECTION_STRING = "<Azure-servicebus-connection-string>"
+    TOPIC = "<Azure-servicebus-Topic-Name>"
+    data = {'sample_message1':'data1', 'sample_message2':'data2'}
+    SERVICE_BUS_CLIENT = ServiceBusClient.from_connection_string(conn_str=CONNECTION_STRING, topic_name=TOPIC, logging_enable=True)
+    sender = SERVICE_BUS_CLIENT.get_topic_sender(topic_name=TOPIC)
+    message = ServiceBusMessage(json.dumps(data))
+    sender.send_messages(message)
+==============================================================================================
+3. Sending a batch of messages to service bus topic.batch_message = sender.create_message_batch()
+    CONNECTION_STRING = "<Azure-servicebus-connection-string>"
+    TOPIC = "<Azure-servicebus-Topic-Name>"
+    SERVICE_BUS_CLIENT = ServiceBusClient.from_connection_string(conn_str=CONNECTION_STRING, topic_name=TOPIC, logging_enable=True)
+    sender = SERVICE_BUS_CLIENT.get_topic_sender(topic_name=TOPIC)
+    batch_message = sender.create_message_batch() ## Using 1 MB batch -> sender.create_message_batch(1048576 * 1)
+    batch_message.add_message(ServiceBusMessage("Message1"))
+    batch_message.add_message(ServiceBusMessage("Message1"))
+    batch_message.add_message(ServiceBusMessage("Message1"))
+    ......
+    sender.send_messages(batch_message)
+==============================================================================================
+4. Receiving messages from service bus topic.
+    CONNECTION_STRING = "<Azure-servicebus-connection-string>"
+    TOPIC = "<Azure-servicebus-Topic-Name>"
+    SUBSCRIPTION_NAME = "<Azure=servicebus-topic-subscription-name>"
+    SERVICE_BUS_CLIENT = ServiceBusClient.from_connection_string(conn_str=CONNECTION_STRING, topic_name=TOPIC, logging_enable=True)
+    receiver = SERVICE_BUS_CLIENT.get_subscription_receiver(topic_name=TOPIC, subscription_name=SUBSCRIPTION_NAME, max_wait_time=5)
+    msgs = receiver.receive_messages(max_wait_time=5, max_message_count=1000)
+    for msg in msgs:
+        print(msg)
+        receiver.complete_message(msg) # this will mark the message as complete and so it'll be removed from servicebus topic.
+==============================================================================================
+5. Application properties of a message service bus topic.
+    data = {'sample_message1':'data1', 'sample_message2':'data2'}
+    properties = {"message_property1":"value1", "message_property2":"value2"}
+    message = ServiceBusMessage(json.dumps(data), application_properties=properties)
+    print(message.application_properties)
+==============================================================================================
+6. Use-Case: Convert df rows into dict and send each dict as a message to service-bus.
+    def send_batch(rows):
+        SERVICE_BUS_CLIENT = ServiceBusClient.from_connection_string(conn_str=CONNECTION_STRING, topic_name=TOPIC, logging_enable=True)
+        sender = SERVICE_BUS_CLIENT.get_topic_sender(topic_name=TOPIC)
+        batch_message = sender.create_message_batch(max_batch_bytes) # max_batch_bytes = 1048576 * 1
+        counter = 0
+        for i, obj in enumerate(rows):
+            try:
+                batch_message.add_message(ServiceBusMessage(json.dumps(obj["all_data"])))
+                counter+=1
+                if counter%max_batch_size == 0:
+                    print(i+1, end="->")
+                    sender.send_messages(batch_message)
+                    counter = 0
+                    batch_message = sender.create_message_batch(max_batch_bytes)
+            except Exception as e:
+                if e.__class__.__name__ == "MessageSizeExceededError":
+                    print(i+1, end="->")
+                    sender.send_messages(batch_message)
+                    batch_message = sender.create_message_batch(max_batch_bytes)
+                    batch_message.add_message(ServiceBusMessage(json.dumps(obj["all_data"])))
+                    counter = 1
+                else:
+                    print("Error Adding Messages to batch. Error is: ",e)
+                    break
+        if counter > 0:
+            sender.send_messages(batch_message)
+
+    # Call above functions for sending a partition of dataframe:
+    df = df.withColumn("all_data",struct([df[x] for x in df.columns]))
+    df = df.select(['policy_id','all_data'])
+    df = df.groupby("policy_id").agg(collect_list(df.all_data).alias("all_data"))
+    df = df.select("all_data").toJSON().map(json.loads)
+    df.foreachPartition(send_batch)
+==============================================================================================
+7. Other important points to know.
+    • message.application_properties: returns the application_properties dictionary associate with the perticular message.
+    • batch_message.max_size_in_bytes: returns the maximum bytes/size this batch_message can hold.
+    • batch_message.size_in_bytes: returns the current bytes/size of data this batch_messgae is holding.
+    • sender.create_message_batch(1048576 * n): return a batch object, which can hold n MB of data messages, 
+        NOTE: We can't send a batch of more than 1 MB as per reference_links_2.
+==============================================================================================
+
+        
+

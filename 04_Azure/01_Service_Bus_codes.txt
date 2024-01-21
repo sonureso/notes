@@ -10,7 +10,7 @@
 ==============================================================================================
 0. Important links and references.
     1. Azure Servicebus package documentation: https://azuresdkdocs.blob.core.windows.net/$web/python/azure-servicebus/latest/azure.servicebus.html
-    2. We can not have a batch of size 1 MB: https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-troubleshooting-guide#:~:text=of%20ServiceBusMessage%20instances.-,Batch%20fails%20to%20send,-A%20message%20batch
+    2. We can not have a batch of size more than 1 MB: https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-troubleshooting-guide#:~:text=of%20ServiceBusMessage%20instances.-,Batch%20fails%20to%20send,-A%20message%20batch
     3. 
 ==============================================================================================
 1. Import statements.

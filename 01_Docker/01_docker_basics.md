@@ -276,4 +276,11 @@ Here is a quick, one-line-per-command Docker cheat sheet for the main everyday a
 **Copy files from host to container**  
 `docker cp /host/path <container>:/path/inside/container`
 
+**Save a image locally as .tar file**  
+`docker save -o <export_filename.tar> <image-name:tag>`
+
+**Load a image from a .tar file**  
+`docker load -i export_filename.tar`
+
+
 This covers ~95% of daily Docker usage for images, containers, and basic cleanup. Use `docker --help` or `docker <command> --help` for more flags/options.

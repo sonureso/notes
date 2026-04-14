@@ -1,6 +1,7 @@
 > # LangChain Models
 - (LLMs demo) https://github.com/campusx-official/langchain-models 
 - (Docs) https://docs.langchain.com/oss/python/langchain/models
+- Video Tutorial: https://www.youtube.com/watch?v=HdcLE8JuMrA&list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0&index=5
 
 **LangChain Models**: 
 ```mermaid

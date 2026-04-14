@@ -1,5 +1,5 @@
 > # LangChain Output Parsers
-- (langchain-prompts) https://github.com/campusx-official/langchain-output-parsers
+- (parsers) https://github.com/campusx-official/langchain-output-parsers
 - (Docs): https://reference.langchain.com/python/langchain-core/output_parsers
 - Video Tutorial: https://www.youtube.com/watch?v=Op6PbJZ5b2Q&list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0&index=8
 

@@ -1,5 +1,5 @@
 > # LangChain Structured Output
-- (langchain-prompts) https://github.com/campusx-official/langchain-structured-output
+- (langchain-structured-output) https://github.com/campusx-official/langchain-structured-output
 - (Docs): https://docs.langchain.com/oss/python/langchain/structured-output
 - Video Tutorial: https://www.youtube.com/watch?v=y5EmRr1O1h4&list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0&index=7
 

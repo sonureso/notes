@@ -17,7 +17,7 @@ RAG is a technique that combines information retrieval with language generation,
 4. Retrievers
 
 > # Document Loaders
-Document Loaders are components in LangChain used to load data from various sources into a standardized format (Usually as document objects) which then can be used for chunking, embedding, retrieval, and generation.
+Document Loaders are components in LangChain used to load data from various sources into a standardized format (Usually as document objects) which then can be used for chunking, embedding, retrieval, and generation. __Every document object usually contains 2 keys - page_content and metadata.__
 
 ### 1. TextLoader
 TextLoader is a simple and commonly use document loader in LangChain that reads plain text(.txt) files and converts them into LangChain Document Obeject.

@@ -30,36 +30,6 @@ agent_executor = AgentExecutor(
     verbose=True
 )
 ```
-Below is a flowchart to understand it better:
-
-```mermaid
-%%{init: {
-  'theme': 'dark',
-  'themeVariables': {
-    'primaryColor': '#1e3a8a',
-    'primaryTextColor': '#e0f2fe',
-    'primaryBorderColor': '#60a5fa',
-    'lineColor': '#60a5fa',
-    'secondaryColor': '#312e81',
-    'tertiaryColor': '#1e2937',
-    'nodeBorder': '#60a5fa',
-    'mainBkg': '#0f172a',
-    'textColor': '#e0f2fe',
-    'fontSize': '16px'
-  }
-}}%%
-
-flowchart TD
-    A[Agent Executor] -->|Receive User Query| B(Pass Query + Agent ScratchPad)
-    B --> C{Response}
-    C --> D[Agent Action]
-    C --> E[Agent Finish]
-    E --> F[Return Final Output]
-    D --> T[Execute Tool]
-    T --> G[Collection Observation]
-    G --> U[Update Agent ScratchPad]
-    U --> B
-```
 
 ### Agent Code: Agent that brings weather data of any user requested city.
 

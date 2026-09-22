@@ -1,0 +1,132 @@
+========================1. Form Processing============================================
+1. Create Hello World Code
+2. Create myapp/forms.py as follows:
+3. How to send email.
+--------------------------------------------------------------------------------------
+#myapp/forms:
+from django import forms
+class LoginForm(forms.Form):
+   username = forms.CharField(max_length = 100)
+   password = forms.CharField(widget = forms.PasswordInput())
+--------------------------------------------------------------------------------------
+
+=======================2. Update myapp/views.py=======================================
+from django.shortcuts import render
+from django.http import HttpResponse
+from myapp.forms import LoginForm
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the First Page.")
+	
+def login(request):
+	
+	username = "Not Logged in"
+	if request.method == "POST":
+		#Get the posted form
+		MyLoginForm = LoginForm(request.POST) 
+		# username = MyLoginForm.errors
+		# Now do all validations here.
+		if MyLoginForm.is_valid():
+			username = MyLoginForm.cleaned_data['username']
+			username += MyLoginForm.cleaned_data['password']
+	else:
+		MyLoginForm = LoginForm()
+		
+	return render(request, 'loggedin.html', {"username" : username})
+------------------------------------------------------------------------------------------
+OR additional gyan:
+	form = LoginForm(request.POST or None)
+	if form.is_valid():
+		print request.POST
+		print form.cleaned_data['username']
+	context = locals()
+	return render(request,template,context)
+
+------------------------------------------------------------------------------------------
+========================3. Update myapp/urls.py===========================================
+from django.urls import path
+from . import views
+from django.views.generic import TemplateView
+
+urlpatterns = [
+    path('', views.index, name='index'),
+	path('connection/',TemplateView.as_view(template_name='login.html')),
+	path('login/',views.login,name='login'),
+	
+]
+-------------------------------------------------------------------------------------------
+========================4. Create Form page and loggedin page==============================
+#myapp/templates/login.html
+<html>
+   <body>
+      <form name = "form" action = {% url 'login' %} method = "POST" >{% csrf_token %}
+         <div style = "max-width:470px;">
+            <center> 
+               <input type = "text" style = "margin-left:20%;" placeholder = "Identifiant" name = "username" />
+            </center>
+         </div>
+		<br>
+        <div style = "max-width:470px;">
+            <center>
+               <input type = "password" style = "margin-left:20%;" placeholder = "password" name = "password" />
+            </center>
+         </div>
+		<br>
+         <div style = "max-width:470px;">
+            <center> 
+				<button style ="border:0px;background-color:#4285F4;margin-top:8%;height:35px;width:80%;margin-left:19%;" type = "submit" value = "Login" >
+                  <strong>Login</strong>
+               </button>
+            </center>
+         </div> 
+      </form> 
+   </body>
+</html>
+# only use function name (of views.py) in form action 
+--------------------------------------------------------------------------------------------
+#additional gyan:
+<form method="POST" action="">
+{% csrf_token %}
+{% form.as_p %}
+<input type="submit">
+</form>
+---------------------------------------------------------------------------------------------
+#myapp/templates/loggedin.html
+<html>
+   <body>
+      You are : <strong>{{username}}</strong>
+   </body>
+</html>
+---------------------------------------------------------------------------------------------
+
+============================5. Finalize======================================================
+1. Connect myapp/urls.py with main urls file
+2. Run server : python manage.py runserver
+3. Check:   http://127.0.0.1:8000/myapp/connection/
+4. This should display username on loggedin page.
+
+
+=============================6. End of this part==============================================
+=============================3. SENDING EMAILS================================================
+1. make changes to settings.py:
+	EMAIL_HOST = 'smtp.gmail.com'
+	EMAIL_HOST_USER = 'your gamil email'
+	EMAIL_HOST_PASSWORD = 'Your gmail Password'
+	EMAIL_PORT = '587' # port for gmail
+	EMAIL_USE_TLS = True
+2. For views.py do the following:
+	from django.conf import settings
+	if form.is_valid():
+		name=form.cleaned_data['name']
+		comment=form.cleaned_data['comment']
+		subject = "Message from contact form"
+		message = comment
+		emailfrom = form.cleaned_data['email']
+	 	emailto = [settings.EMAIL_HOST_USER]
+		send_mail(subject,message,emailfrom,emailto,fail_silently=True)
+	context = locals()
+	template = 'contact.html'
+	return render(request,template,context)
+
+
+

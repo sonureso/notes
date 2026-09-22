@@ -1,0 +1,4 @@
+01. Create a sample video just using the images.
+02. Time wise + with transitions.
+03. Think of downloading photos in bulk.
+04. Creating big/short videos with that.

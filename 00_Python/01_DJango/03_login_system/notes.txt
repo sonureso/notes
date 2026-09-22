@@ -1,0 +1,10 @@
+1. pip install django
+2. django-admin startproject login_system
+3. python manage.py runserver
+4. python manage.py startapp login_app
+========================================================
+1. Create Django Superuser for accesing admin paga:
+    1. python manage.py migrate
+    2. python manage.py createsuperuser
+========================================================
+

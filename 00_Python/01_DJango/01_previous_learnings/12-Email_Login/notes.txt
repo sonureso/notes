@@ -1,0 +1,172 @@
+♦Tutorial Followed: https://wsvincent.com/django-login-with-email-not-username/
+1. Email login system.
+
+
+1. Create Hello world project.
+=============================================
+add below line to settings.py
+AUTH_USER_MODEL = 'myapp.CustomUser'
+
+
+===============1. myapp/models.py=============================================
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class CustomUser(AbstractUser):
+    # add additional fields in here
+
+    def __str__(self):
+        return self.email
+		
+===============2. myapp/forms.py==============================================
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import CustomUser
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email')
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email')
+		
+===============3. myapp/admin.py===============================================
+from django.contrib import admin
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .models import CustomUser
+
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUser
+    list_display = ['email', 'username',]
+
+admin.site.register(CustomUser, CustomUserAdmin)
+
+*NOTE: Now run:  
+	1. python manage.py makemigrations myapp
+	2. python manage.py migrate
+	3. python manage.py createsuperuser
+	4. python manage.py runserver
+	
+
+=================4. settings.py==============================
+1. Add below app:
+	'myapp','allauth','allauth.account','allauth.socialaccount','django.contrib.sites',
+	
+2. Add user model name:
+	AUTH_USER_MODEL = 'myapp.CustomUser'
+	
+3. In settings:: Templates add below line:
+	'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
+4. Add these in settings.py:
+	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+	AUTHENTICATION_BACKENDS = (
+		"django.contrib.auth.backends.ModelBackend",
+		"allauth.account.auth_backends.AuthenticationBackend",
+	)
+
+	SITE_ID = 1
+
+	ACCOUNT_EMAIL_REQUIRED = True
+	ACCOUNT_USERNAME_REQUIRED = False
+	ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+	ACCOUNT_SESSION_REMEMBER = True
+	ACCOUNT_AUTHENTICATION_METHOD = 'email'
+	ACCOUNT_UNIQUE_EMAIL = True
+
+	
+*NOTE: run below command:
+	1. python manage.py migrate
+	
+================5. main urls.py=============================================
+from django.contrib import admin
+from django.urls import path,include
+
+
+urlpatterns = [
+	path('',include('myapp.urls')),
+	path('accounts/', include('allauth.urls')),
+    path('admin/', admin.site.urls),
+]
+
+================6. myapp/urls.py=============================================
+from django.urls import path,include
+from . import views
+from django.views.generic import TemplateView
+
+urlpatterns = [
+	path('home/',TemplateView.as_view(template_name='home.html'),name="home"),
+	path('',views.index)
+]
+
+===============7. myapp/views.py=============================================
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def index(request):
+	return HttpResponse("Welcome to login page")
+
+===============8. folder templates==============================================
+	1. create project/tempates folder and project/templates/account folder.
+	# create templates/home.html:
+		<!-- templates/home.html -->
+		{% if user.is_authenticated %}
+		  Hi {{ user.email }}!
+		  <p><a href="{% url 'account_logout' %}">Log Out</a></p>
+		{% else %}
+		  <p>You are not logged in</p>
+		  <a href="{% url 'account_login' %}">Log In</a> |
+		  <a href="{% url 'account_signup' %}">Sign Up</a>
+		{% endif %}
+		
+	2. create templates/account/login.html:
+		<h2>Log In</h2>
+		<form method="post">
+		  {% csrf_token %}
+		  {{ form.as_p }}
+		  <button type="submit">Log In</button>
+		</form> 
+		
+	3. create templates/account/signup.html:
+		<h2>Sign Up</h2>
+		<form method="post">
+		  {% csrf_token %}
+		  {{ form.as_p }}
+		  <button type="submit">Sign Up</button>
+		</form>
+		
+		
+NOW UPDATE setting.py:
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+	
+=========================================================
+Finally visit:
+1. run : python manage.py runserver:
+		a) http://127.0.0.1:8000
+		b) http://127.0.0.1:8000/home/
+		
+========================================================
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

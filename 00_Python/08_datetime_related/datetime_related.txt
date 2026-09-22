@@ -1,0 +1,18 @@
+TOPICS:
+1. Convert to datetime:
+2. Getting month name
+3. Timestamp to datetime
+
+==============1. string to datetime=================
+d = datetime.datetime.strptime(x,"%d-%m-%y").date()
+
+==============2. getting monthname==================
+month_name = datetime.datetime.strptime(x,"%d-%m-%y").strftime("%B")
+OR
+month_name = d.strftime("%B")
+
+=============3. Timestamp to datetime================
+d = datetime.datetime.fromtimestamp(1584555455).date()
+# Ex: above timestamp 1584555455 is 18th march 2020.
+
+

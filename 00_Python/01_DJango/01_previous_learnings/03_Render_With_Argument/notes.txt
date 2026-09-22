@@ -1,0 +1,88 @@
+Written By: Shubham Kumar
+=============1. ToDo=========================================
+1. Making two HTML pages in myapp/templates
+2. Using render() in myapp/views to send it to HTML pages.
+2. Passing arguments from myapp/views to HTML pages.
+
+=============2. startproject=================================
+run:   django-admin startproject project_01
+
+=============3. startapp=====================================
+run:   python manage.py startapp myapp
+
+=============4. Register myapp in settings.py================
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+	'myapp',
+]
+
+=============5. Create two HTML Files=========================
+#myapp/templates/hello.html:
+<html>
+<body>
+<center>
+<h1>Hello There: {{status}}</h1>
+<h4>Today is : {{date}}</h4>
+</center>
+</body>
+</html>
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#myapp/templates/question.html:
+<html>
+<body>
+<center>
+<h1>Question is:</h1>
+<h4>{{que}}</h4>
+</center>
+</body>
+</html>
+
+============6. Update myapp/views.py============================
+#myapp/views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+import datetime
+
+def index(request):
+	status = "How are you!"
+	date = datetime.datetime.now().date()
+	return render(request,'hello.html',{"status":status,"date":date})
+	#Passing the argument in dictionary format of variables used in html.
+	
+def question(request):
+	que = "What to do?"
+	return render(request,'question.html',{'que':que})
+	
+============7. create myapp/urls.py==============================
+#myapp/urls.py
+from django.urls import path, re_path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+	path('que/',views.question,name='que'),
+]
+
+============8. Register myapp/urls in project_01/urls.py==========
+#project_01/urls.py
+#don't forget to add library 'include'.
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+	path('myapp/', include('myapp.urls')),
+]
+
+============9. Check===============================================
+1. http://127.0.0.1:8000/myapp/
+2 http://127.0.0.1:8000/myapp/que/
+
+============10. End of Part-3======================================
+

@@ -1,0 +1,29 @@
+TOPICS:
+1. Convert DataFrame to json:
+2. 
+
+=====================1. DF to json===============
+#df is a dataframe
+json_data = json.loads(df.to_json(orient ='records'))
+
+==================
+
+#Saving json File:
+json_file = open('name.txt',"w",encoding="utf-8")
+json.dump(d2,json_file,ensure_ascii=False,indent=4)
+json_file.close()
+-----------------OR----------------------------
+# Save the json data:
+with open('name.json', 'w') as json_file:
+    json.dump(data, json_file,indent=4)
+
+==============================================
+#Reading json file:
+with open('axis_max.json') as f:
+    data = json.load(f)
+    
+=============================================
+# Disply the json data:
+json_object = json.dumps(data)
+print(json_object)
+

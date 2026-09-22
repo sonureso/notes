@@ -1,0 +1,22 @@
+<body bgcolor="black" style="color:white;">
+<center><h2>Welcome to page signup page.</h2><hr/></center>
+
+<hr/><hr/>
+<div style="color:#9c0000;">
+{% if error_keys|length != 0 %}
+Fix these ERRORS first:
+	{% for element in error_values %}
+		{{element}}
+	{% endfor %}
+{% endif %}
+</div>
+<form method="post" action="/signup/">
+  {% csrf_token %}
+  {% for field in form %}
+	{{field.label}}: {{field}}<br/><br/>	
+  {% endfor %}
+  <button type="submit">Register Account</button>
+</form>
+<hr/>
+<a  href="/login"><button>Login</button></a>
+</body>

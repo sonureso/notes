@@ -1,0 +1,62 @@
+===================1. ToDo ==========================================================
+1. Using Page Redirection
+
+===================2. Create Hello World ============================================
+1. Create Project: project_01
+2. Create App: myapp
+3. Register myapp in settings
+4. Create myapp/urls.py as follows:
+-----------------------------------------------------------------
+#myapp/urls.py:
+from django.urls import path
+from . import views
+
+urlpatterns = [
+	path('',views.index,name='index'),
+        path('hello/',views.hello,name='hello'),
+	path('getname/',views.getname,name='name'),
+	path('google/',views.google,name='google'),
+]
+-----------------------------------------------------------------
+
+====================3. Update myapp/views.py==========================================
+#Update myapp/views.py as follows:
+#myapp/views.py:
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+def index(request):
+	return HttpResponse("Hello There!!!")
+
+def hello(request):
+	response = redirect('/myapp/getname/')
+	return response
+
+def google(request):
+	return redirect('http://www.google.com')
+
+def getname(request):
+	return render(request,'getname.html')
+------------------------------------------------------------------
+#info: Here in google method 'direct url redirection' is used.
+#and in hello method 'internal page redirection' is used.
+
+====================4. Connect myapp/urls.py to main urls.py============================
+#project_01/urls.py
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('myapp/', include('myapp.urls')),	
+]
+
+====================5. Run and Check as follows:=========================================
+1. http://127.0.0.1:8000/myapp/    : Hello There!!!
+2. http://127.0.0.1:8000/myapp/getname/   : will display getname.html
+3. http://127.0.0.1:8000/myapp/hello/     : Again it will redirect to same getname page
+4. http://127.0.0.1:8000/myapp/google/    : Will redirect to google.com
+
+====================6. End of This part===================================================
+4. 
+

@@ -1,0 +1,48 @@
+NOTE: Before deploy your django project need to be configured.
+How to configure.
+1. Create a file with the name: "Procfile" 
+    with content as below: (first line only if there is databse.)
+    release: python manage.py migrate
+    web: gunicorn myproject.wsgi
+2. Create a requirements.txt with contents as below:
+    django
+    gunicorn
+    django-heroku
+3. add additional dependencies as well here.
+4. pip install gunicorn
+5. pip install django-heroku
+6. Add on top of settings.py:   import django_heroku
+7. add bottom of settings.py:   django_heroku.settings(locals())
+8. You are done and good to deploy
+  NOTE: You can deploy via: a) Git  b) Docker c) Deployment integration.
+  We will go with git:
+9. Go the root project folder and type: git init.
+10. now run : git add .
+11. run: git commit -m "My first commit"
+12. Now create heroku app:  heroku create
+13. You can use the git remote command to confirm that a remote named heroku has been set for your app:
+    git remote -v
+14. now you can push....see below steps.
+
+Deploy Django project on heroku:
+===========================
+1. Install Github desktop and set the path:
+2. Check by git --version on cmd
+3. Download and install heroku CLI: link:https://devcenter.heroku.com/articles/getting-started-with-python#set-up
+4. check this installation on cmd by: "heroku login"
+5. Now clone your project or sample python project
+Ex: git clone https://github.com/heroku/python-getting-started.git
+6. go inside the project folder: cd python-getting-started
+7. create heroku app: heroku create
+8. now run: git push heroku master
+8. set one instance: heroku ps:scale web=1
+9. heroku open: This will open up the project.
+10. You are done,
+
+=========================================
+Renaming installed apps in heroku:
+heroku apps:rename newname --app oldname
+
+=========================================
+Deleting installed apps in heroku:
+This can be done directly from heroku website.

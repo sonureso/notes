@@ -1,0 +1,170 @@
+==================1. ToDo ===========================================
+1. Creating a model in myapp/models.py
+2. adding rows in model.
+3. Displaying all rows in model.
+4. Deleting all rows in model.
+
+==================2. Create Project and app==========================
+1. Create Project:
+	run: django-admin startproject project_01
+2. Create App:
+	run: python manage.py startapp myapp/models
+	
+==================3. Register myapp in settings.py====================
+#project_01/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+	'myapp',
+]
+
+==================4. Create Model ====================================
+#myapp/models.py
+---------------------------------------------------------------------
+from django.db import models
+
+class Dreamreal(models.Model):
+	website = models.CharField(max_length = 50)
+	mail = models.CharField(max_length = 50)
+	name = models.CharField(max_length = 50)
+	phonenumber = models.IntegerField()
+	# if you are adding new field add: null=True OR default=" "
+	# blank = True -- is also an option to use.
+	#optional
+	class Meta:
+		db_table = "dreamreal"	
+	#optional
+	def __str__(self):
+		return self.name
+	#optional 
+	def get_name(self):
+		return "Mr. "+self.name+"."
+		#you can do manipulations and then return data.
+-----------------------------------------------------------------------
+#other info: 
+#you can use this : for making a columns with foreign key.
+online = models.ForeignKey('Online', default = 1)
+
+run: python manage.py makemigrations myapp
+run: python manage.py migrate myapp
+
+==================5. Create a html=====================================
+#myapp/templates/print.html
+-----------------------------------------------------------------------
+<html>
+<body>
+<h2>
+Your Data is : </br>
+{{data|linebreaks}}
+</h2>
+</body>
+</html>
+----------------------------------------------------------------------
+
+==================6. Update myapp/views.py=============================
+1. Create required functions for various functionality
+2. Function: home page, add date, read data, delete data
+# myapp/views.py
+-----------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+from myapp.models import Dreamreal
+
+def index(request):
+	return HttpResponse("Congo, You reached Home.")
+
+def add(request):
+	dreamreal = Dreamreal(website = "mysksongs.online", mail = "sk@gmail.com",
+							name = "sonu", phonenumber = "002376970")
+	dreamreal.save()
+	return HttpResponse('Data Saved')
+
+def read(request):
+	objects = Dreamreal.objects.all()  #.order_by('name') can also be used.
+	res =''
+	for elt in objects:
+		res += "Name: "+elt.name+", Mail: "+elt.mail+"\n\n"
+	return render(request,'print.html',{'data':res})
+# Here you can pass whole objects as well and use for loop in HTML file.
+	
+def delete(request):
+	rows = Dreamreal.objects.all()
+	for i in range(0,len(rows)):
+		if(rows[i].name=='sonu'):
+			rows[i].delete()
+	objects = Dreamreal.objects.all()
+	res =''
+	for elt in objects:
+		res += "Name:"+elt.name+", E-mail:"+elt.mail+"------"
+	return render(request,'print.html',{'data':res})
+	
+---------------------------------------------------------------------------------
+
+=====================7. Make Corresponding URLs==================================
+#myapp/urls.py:
+---------------------------------------------------------------------------------
+from django.urls import path
+from . import views
+
+urlpatterns=[
+	path('',views.index,name='home'),
+	path('add/',views.add,name='add'),
+	path('read/',views.read,name='read'),
+	path('delete/',views.delete,name='del')
+]
+----------------------------------------------------------------------------------
+======================8. Connect myapp/urls.py with project_01/urls.py============
+#project_01/urls.py:
+----------------------------------------------------------------------------------
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+	path('myapp/',include('myapp.urls')),
+]
+----------------------------------------------------------------------------------
+
+=====================9. Run Server and check======================================
+1. Run server:
+	run: python manage.py runserver
+2. Check: 
+	a). http://127.0.0.1:8000/myapp/add/      - this will add one row.
+	b). http://127.0.0.1:8000/myapp/read/     - this will read that row.
+	c). http://127.0.0.1:8000/myapp/delete/   - this will delete all rows.
+
+=====================10. End of this part===========================================
+=====================11. Additionally from Admin Side===============================
+1. If You want to see your tables and data in admin side.
+2. Update the myapp/admin file as follows:
+#myapp/admin.py
+-------------------------------------------------------------------------------------
+from django.contrib import admin
+from .models import Dreamreal
+
+admin.site.register(Dreamreal)
+-------------------------------------another example for registering to admin------
+from django.contrib import admin
+from .models import Game
+
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+	list_display = ('id','first_player','second_player','status')
+	list_editable = ('status',)
+------------------------------------------------------------------------------------
+now you can see all data in admin:
+
+
+
+
+
+
+
+
+
+
+

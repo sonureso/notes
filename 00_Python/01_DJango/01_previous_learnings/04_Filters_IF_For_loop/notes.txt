@@ -1,0 +1,78 @@
+==============1. ToDo=====================================================
+1. Using filters in html pages 
+2. Using if-else and for loop in html pages
+
+==============2. Create Project and app===================================
+1. Create Project: 
+	run: django-admin startproject project_01
+2. Create App:
+	run: python manage.py startapp myapp
+	
+==============3. Register myapp in settings.py============================
+#project_01/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+	'myapp',
+]
+
+==============4. Create myapp/urls.py as follows==========================
+#myapp/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+	path('',views.index,name='index'),
+	path('msg/',views.msg,name='display'),
+	path('date/',views.date,name='date'),
+]
+
+#here msg and date are function in views...
+
+==============5. Define these urls in myapp/views.py=======================
+#myapp/views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+import datetime
+
+def index(request):
+	return HttpResponse("Hello World.")
+	
+def msg(request):
+	name = 'Learning Django'
+	# will see filter built-ins on this a.html page.
+	return render(request,'a.html',{'name':name})
+	
+def date(request):
+	today = datetime.datetime.now().date()
+	Week_days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+	return render(request,'date.html',{'today':today,'Week_days':Week_days})
+
+===============6. Create a.html and date.html in myapp/templates folder.===
+1. See myapp/templates/a.html for use of filters: 
+	e.g., lower, cut, truncatewords, length, etc
+2. See myapp/templates/date.html for use of if-else and for loop.
+
+===============6. Register myapp/urls to project_01/urls.py===================
+#project_01/urls.py
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+	path('myapp/', include('myapp.urls')),
+]
+
+================7. Run Server and Check Outputs at ===========================
+a). Run Server:
+     run: python manage.py runserver
+b). Check Links:
+1. http://127.0.0.1:8000/myapp/                
+2. http://127.0.0.1:8000/myapp/msg/
+3. http://127.0.0.1:8000/myapp/date/
+	
+================8. End of this part============================================

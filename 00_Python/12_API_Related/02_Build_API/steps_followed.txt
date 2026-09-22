@@ -1,0 +1,29 @@
+1. install python
+2. install jupyter
+3. setup virtual env and install FastAPI.
+4. Go throgh FastAPI Website Learning Section -
+	a. https://fastapi.tiangolo.com/learn/
+	b. Async and Await: https://fastapi.tiangolo.com/async/
+	c. 
+5. 
+==========================================
+♦ Install libraries:
+1. pip install fastapi
+2. pip install uvicorn
+==========================================
+♦ Creating first simple API:
+1. create a folder "my_api", inside it create a main.py file with below content:
+----------------------------------
+from fastapi import FastAPI
+app = FastAPI()
+@app.get("/")
+def get_root():
+    return "Welcome to my API."
+----------------------------------
+2. run this in CMD: 
+	uvicorn main:app --reload
+	(uvicorn filename:app --reload)
+3. You can check on localhost: http://127.0.0.1:8000/
+----------------------------------
+=============================================
+♦ 

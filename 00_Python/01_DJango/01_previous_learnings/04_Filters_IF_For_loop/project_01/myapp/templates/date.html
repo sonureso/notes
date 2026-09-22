@@ -1,0 +1,22 @@
+<html>
+<body>
+<center>
+============TAG: If else================<hr/>
+<p>Today is {{today}}</p>
+
+{% if today.day == 1 %}
+	This is first day of month
+{% elif today.day == 30 %}
+	This is last day of month
+{% else %}
+	This is some other day.
+{% endif %}
+<hr/>
+===============Week Days using for loop==========<hr/>
+Week Days:
+{% for day in Week_days %}
+	{{day}}
+{% endfor%}
+</center>
+</body>
+</html>

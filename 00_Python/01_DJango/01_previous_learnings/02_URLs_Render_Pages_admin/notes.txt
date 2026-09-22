@@ -1,0 +1,84 @@
+Written By: Shubham Kumar
+===========1.ToDo==============================================
+1. Making a HTML page and adding it to urls using 'render' in views.py
+2. Passing numeric parameters in urls and giving different o/p.
+3. Making a superuser at end. 
+
+===========2.create project=====================================
+run:   django-admin startproject project_01
+
+===========3.create app=========================================
+run:   python manage.py startapp myapp
+
+===========4.Add myapp to settings==============================
+#project_01/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'myapp',
+]
+
+===========5.Update views with functions=========================
+#myapp/views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def index(Request):
+	return render(Request, "hello.html", {})
+
+def viewarticle(request,id):
+	text = "Displaying : ",id
+	return HttpResponse(text)
+
+def name(request,nm):
+	return HttpResponse(nm)
+
+#Here: render can be used for a file in myapp/templates folder.
+#Render Also it will work even without {}.
+
+============6.Create urls.py in myapp=============================
+#myapp/urls.py
+from django.urls import path, re_path
+from . import views
+
+urlpatterns = [
+    path('hello/', views.index, name='index'),
+    re_path(r'^article/(?P<id>[0-9]{4})/$', views.viewarticle, name='article'),
+    re_path(r'^name/([0-9]{4})/$', views.name, name='nm'),
+]
+
+#Here in: "(?P<id>[0-9]{4})$"
+1. 'id' is name of parameter and should be same in def in views.py 
+otherwise don't give the parameter name and use  -  ([0-9]{4})/$
+2. {4} - size of integer to passed in url. 
+
+=============7.Add myaap/urls.py to project urls.py===============
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('myapp/', include('myapp.urls')),
+    path('admin/', admin.site.urls),
+]
+# remember to add myapp.urls rather : myapp/urls(wrong)
+
+=============8.Checking============================================
+run server :   python manage.py runserver
+check link:  
+1. http://127.0.0.1:8000/myapp/hello/
+2. http://127.0.0.1:8000/myapp/article/2005/
+3. http://127.0.0.1:8000/myapp/name/1234/
+
+=============9.Making a Super user=================================
+1. run: python manage.py migrate
+2. run: python manage.py createsuperuser
+# will ask for username, password.
+open: http://127.0.0.1:8000/admin/
+and login.
+
+==============10.End for now========================================
+

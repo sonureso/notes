@@ -1,0 +1,7 @@
+INSTALLING PYTHON:
+1. Download python from: https://www.python.org/downloads/
+2. While installing markt to set path and use admin access.
+
+INSTALLING JUPYTER:
+1. run: pip install jupyter
+2. 

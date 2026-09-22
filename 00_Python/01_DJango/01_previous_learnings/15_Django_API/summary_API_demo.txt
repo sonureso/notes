@@ -1,0 +1,20 @@
+NOTE: For AJAX calls visit this tutorial: https://www.youtube.com/watch?v=KgnPSmrQrXI
+For making API in Django follow the steps:
+1. install:  pip install djangorestframework
+2. add 'rest_framework' in installed_apps in settings.py
+
+3. create serializers.py:
+	from rest_framework import serializers
+	from .models import Student
+
+	class StudentSerializer(serializers.ModelSerializer):
+		class Meta:
+			model = Student
+			fields = '__all__'
+3. in views.py:
+	from .serializers import StudentSerializer
+
+	def check2(request):
+		students = Student.objects.all()
+		serializer = StudentSerializer(students, many=True)
+		return HttpResponse(list(serializer.data))

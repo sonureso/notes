@@ -1,0 +1,36 @@
+1. create a folder static on project level.
+2. create static, static-only, media : three folders inside it.
+3. Add below code at last of settings.py for Debug=True case:
+=====================================================================
+STATIC_URL = '/static/'
+
+if DEBUG:
+	MEDIA_URL = '/media/'
+	STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
+	MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
+	STATICFILES_DIRS = os.path.join(os.path.dirname(BASE_DIR),"static","static")
+========================================================================
+
+4. Now in project - urls.py: add these accordingly:
+========================================================================
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+========================================================================
+
+5. Now collect the static files by running below code:
+	python manage.py collectstatic
+	yes
+6. Create static/static/css/main.css.
+7. Now in html file:
+========================================================================
+{% load staticfiles %}
+<head>
+	<link rel="stylesheet" href='{%static "css/main.css" %}' />
+</head>
+
+Now to again collect all static files, run again: collectstatic code.
+

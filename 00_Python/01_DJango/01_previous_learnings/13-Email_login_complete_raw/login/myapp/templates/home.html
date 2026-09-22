@@ -1,0 +1,14 @@
+<html>
+<body bgcolor="black" style="color:white">
+<center> Welcome!!</center>
+<hr/>
+{% if user.is_authenticated %}
+	&ensp; Welcome, {{user.first_name}} {{user.last_name}}<br/>
+	&ensp; You are logged in now. <br/>
+	&ensp; <a href='logout'>LogOut</a>
+{% else %}
+	&ensp; <a href='signup' style="color:orange;">SignUp</a> 
+	&ensp; <a href='login' style="color:orange;"> LogIn</a>
+{% endif %}
+</body>
+</html>

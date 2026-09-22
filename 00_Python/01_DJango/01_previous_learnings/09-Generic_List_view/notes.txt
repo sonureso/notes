@@ -1,0 +1,78 @@
+==========================1. ToDo==========================================================
+1. Making a generic view: ListView
+2. Display all rows from a model using ListView:
+
+==========================2. Create a sample Modal project==================================
+1. Create Project:   django-admin startproject project_01
+2. Create App:       python manage.py startapp myapp
+
+==========================3. myapp/urls.py==================================================
+#myapp/urls.py
+--------------------------------------------------------------------------------------------
+from django.urls import path
+from . import views
+from django.views.generic import ListView
+from myapp.models import book
+
+urlpatterns = [
+	path('',views.index,name='home'),
+	path('add/',views.add,name='add'),
+	path('read/',views.read,name='read'),
+	path('delete/',views.delete,name='delete'),
+	path('list/',ListView.as_view(model=book,template_name='list_view.html')),
+]
+---------------------------------------------------------------------------------------------
+#here we are passing model and template_name in path,
+# we can do that in a class as well inside views.py
+
+==========================4. Views.py========================================================
+#myapp/views.py
+---------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+from myapp.models import book
+
+def index(request):
+	return HttpResponse('Hello Everyone')
+
+def add(request):
+	book1 = book(name = 'The Truth',author = 'Mr. Ranjan', price = '250')
+	book1.save()
+	return HttpResponse('Data Saved')
+
+def read(request):
+	books = book.objects.all()
+	d = ''
+	for b in books:
+		d+="Name: "+b.name+", Price: "+str(b.price)+"\n"
+	return render(request,'print.html',{'data':d})
+
+def delete(request):
+	books = book.objects.all()
+	for i in range(len(books)):
+		books[i].delete()
+	return HttpResponse('All Books Deleted.')
+
+=========================5. Create myapp/templates/list_view.html====================
+<html>
+<body>
+<center>
+<h3>
+List of Books.
+{% for b in object_list %}
+Name: {{b.name}} and its price is {{b.price}}
+</br>
+{%endfor%}
+</h3>
+</center>
+</body>
+</html>
+
+
+==========================6. Complete it==============================================
+Do the remaining stuff and run:
+1. http://127.0.0.1:8000/myapp/add/
+2. http://127.0.0.1:8000/myapp/read/
+3. http://127.0.0.1:8000/myapp/list/   --- this should display all rows via: ListView.
+
+==========================END==========================================================

@@ -1,0 +1,9 @@
+1. run: get_audio.py
+Two Parameter:
+a) text file name
+b) audio file name
+
+Ex:   python get_audio.py text.txt audio.mp3
+
+#Requirements:
+pip install gTTS

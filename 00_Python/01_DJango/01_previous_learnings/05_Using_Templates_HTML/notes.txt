@@ -1,0 +1,87 @@
+===============1. ToDo ==================================
+1. Making a template.html 
+2. Using that template in other html page
+3. Another Approach 2
+
+===============2. Create project and app=================
+1. Create Project:
+	run: django-admin startproject project_01
+2. Create App:
+	run: python manage.py startapp myapp
+
+===============3. Register myapp in settings.py==========
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+	'myapp',
+]
+
+===============4. Create myapp/urls.py ===================
+#myapp/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns=[
+	path('',views.index,name='home'),
+]
+
+===============5. Define index function in views.py=======
+#myapp/views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def index(request):
+	name = 'Shubham'
+	return render(request,'hello.html',{'name':name})
+
+===============6. Create template.html and hello.html=====
+#myapp/templates/template.html
+# this is template page.. make a common design for all pages.
+<html>
+<head>
+<title>
+	{% block a %} Page Title {% endblock %}
+</title>
+</head>
+<body>
+{% block b %} Page Content {% endblock %}
+</body>
+</html>
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#myapp/templates/hello.html
+{% extends "template.html" %}
+{% block a %} My Hello Page {% endblock %}
+{% block b %} 
+	<h2> Hello Every one .</h2>
+	<p> My name is {{name}} </p>
+{% endblock %}
+
+===============7. Now run server and check==================
+1. Run server:
+	run: python manage.py runserver
+2. Check:
+	http://127.0.0.1:8000/myapp/
+	
+============================================================
+===============8. Approach #2===============================
+You can create the template and static folder on root label.
+then create sub-folders inside that with app names 
+ex: project/templates/app/home.html 
+also keep base.html just inside templates.
+Do the following changes for these in settings.py:
+---------------------------------------
+1. TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR,"templates")],
+----------------------------------------
+2. STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+	os.path.join(BASE_DIR,"static")
+]
+===============================================================

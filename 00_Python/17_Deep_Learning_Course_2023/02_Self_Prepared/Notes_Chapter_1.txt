@@ -1,0 +1,195 @@
+### CHAPTER-1: All about tensorflow and creating neural networks ###########################
+### 
+############################################################################################
+## 01. Importing Temsorflow + Other & checking it's version ################################
+############################################################################################
+
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+print(tf.__version__)
+
+############################################################################################
+## 02. Creating constant tensors of 'n' dimention ##########################################
+############################################################################################
+
+##### 0-d tensors ##################################################
+sport = tf.constant("Tennis", tf.string)
+number = tf.constant(1.41421356237, tf.float64)
+print(tf.rank(sport).numpy())           ## -> 0
+print(tf.rank(number).numpy())          ## -> 0
+
+##### 1-d tensors ##################################################
+sports = tf.constant(["Tennis", "Basketball"], tf.string)
+numbers = tf.constant([3.141592, 1.414213, 2.71821], tf.float64)
+print(tf.rank(sports).numpy())          ## -> 1
+print(tf.rank(numbers).numpy())         ## -> 1
+
+##### 2-d tensors ##################################################
+matrix = tf.constant([[1.0,2.0,3.0,4.0],[5.0,6.0,7.0,8.0]], tf.float64)
+print(tf.rank(matrix).numpy())          ## -> 2
+print(tf.shape(matrix).numpy())         ## -> [2,4]
+
+print("Row 1: ",matrix[1].numpy())      ## -> Row 1:  [5. 6. 7. 8.]
+print("Column 1: ",matrix[:,1].numpy()) ## -> Column 1:  [2. 6.]
+print("item 0,0",matrix[0,0].numpy())   ## -> item 0,0 1.0
+ 
+##### 4-d tensors ##################################################
+images = tf.zeros([10, 256, 256, 3])
+print(tf.shape(images).numpy().tolist())  ## -> [10, 256, 256, 3]
+print(tf.rank(images).numpy())            ## -> 4
+
+############################################################################################
+## 03. Simple Mathematical computations ####################################################
+############################################################################################
+a = tf.constant(15)
+b = tf.constant(61)
+print((a+b).numpy())                      ## ->  76 
+print(tf.add(a,b).numpy())                ## ->  76
+print((a*b).numpy())                      ## ->  915
+
+############################################################################################
+## 04.1 Creating a simple Neural Network ###################################################
+############################################################################################
+# n_output_nodes: number of output nodes
+# input_shape: shape of the input
+# x: input to the layer
+
+class OurDenseLayer(tf.keras.layers.Layer):
+  def __init__(self, n_output_nodes):
+    super(OurDenseLayer, self).__init__()
+    self.n_output_nodes = n_output_nodes
+
+  def build(self, input_shape):
+    d = int(input_shape[-1])
+    self.W = self.add_weight("weight", shape=[d, self.n_output_nodes]) # note the dimensionality
+    self.b = self.add_weight("bias", shape=[1, self.n_output_nodes]) # note the dimensionality
+
+  def call(self, x):
+    z = tf.matmul(x, self.W) + self.b # TODO
+    y = tf.sigmoid(z)
+    return y
+
+## Let's create one layer 1x2 input and 1X3 output network:
+tf.random.set_seed(1)
+layer = OurDenseLayer(3)  ## Output will be 1X3.
+layer.build((1,2))        ## Input is   1X2.
+x_input = tf.constant([[1,2.]], shape=(1,2))
+y = layer.call(x_input)
+
+print(y.numpy())          ## -> [[0.2697859  0.45750418 0.66536945]]
+
+############################################################################################
+## 04.2 Creating a sequencial neural network ###############################################
+############################################################################################
+## Using Sequential model from Keras and a single Dense layer to define our network. 
+## Create neural networks by stacking together layers like building blocks.
+
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense
+
+n_output_nodes = 3
+model = Sequential()
+dense_layer = Dense(n_output_nodes, activation='sigmoid') 
+model.add(dense_layer)
+
+# Test model with example input
+x_input = tf.constant([[1,2.]], shape=(1,2))
+model_output = model(x_input).numpy()
+print(model_output)        ## -> [[0.5607363 0.6566898 0.1249697]]
+
+############################################################################################
+## 04.3 Defining a model using subclassing #################################################
+############################################################################################
+
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Dense
+
+class SubclassModel(tf.keras.Model):
+
+  def __init__(self, n_output_nodes):
+    super(SubclassModel, self).__init__()
+    self.dense_layer = Dense(n_output_nodes, activation='sigmoid')
+
+  # In the call function, we define the Model's forward pass.
+  def call(self, inputs):
+    return self.dense_layer(inputs)
+
+n_output_nodes = 3
+model = SubclassModel(n_output_nodes)
+x_input = tf.constant([[1,2.]], shape=(1,2))
+print(model.call(x_input))
+
+############################################################################################
+## 04.4 Defining similar subclassing and specifying custom behavior ########################
+############################################################################################
+
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Dense
+
+class IdentityModel(tf.keras.Model):
+
+  def __init__(self, n_output_nodes):
+    super(IdentityModel, self).__init__()
+    self.dense_layer = tf.keras.layers.Dense(n_output_nodes, activation='sigmoid')
+
+  def call(self, inputs, isidentity=False):
+    x = self.dense_layer(inputs)
+    if isidentity:
+      return inputs
+    return x
+
+n_output_nodes = 3
+model = IdentityModel(n_output_nodes)
+x_input = tf.constant([[1,2.]], shape=(1,2))
+
+out_activate = model.call(x_input)
+out_identity = model.call(x_input, isidentity=True)
+
+print(out_activate.numpy()) -> [[0.29996255 0.62776643 0.48460072]]
+print(out_identity.numpy()) -> [[1. 2.]]
+
+############################################################################################
+## 05.1 Gradient Computation with tensorflow ###############################################
+############################################################################################
+
+## Let's calculation the gradient of function: y = x*x*x where x = 5.0
+x = tf.Variable(5.0)
+with tf.GradientTape() as tape:
+  y = x * x * x
+
+dy_dx = tape.gradient(y, x)
+print(dy_dx.numpy())  ## -> 75.0
+
+############################################################################################
+## 05.2 Gradient Computation example for reaching to final number say:4 ####################
+############################################################################################
+# Let's say:  𝐿oss=(𝑥−𝑥_𝑓)**2
+
+# Pick a random starting point-number:
+x = tf.Variable([tf.random.normal([1])])
+
+learning_rate = 1e-2 # learning rate for SGD
+history = []
+x_f = 4  ## Target Value
+
+for i in range(500):
+  with tf.GradientTape() as tape:
+    loss = (x - x_f)**2
+
+  # loss minimization using gradient tape
+  grad = tape.gradient(loss, x)
+  new_x = x - learning_rate*grad
+  x.assign(new_x)
+  history.append(x.numpy()[0])
+
+# Plot the evolution of x as we optimize towards x_f!
+plt.plot(history)
+plt.plot([0, 500],[x_f,x_f])
+plt.legend(('Predicted', 'True'))
+plt.xlabel('Iteration')
+plt.ylabel('x value')
+
+############################### END OF CHAPTER-1 ##########################################
+
+

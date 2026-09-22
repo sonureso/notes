@@ -1,0 +1,15 @@
+===========First Check if already in your system at=====================
+python37/Scripts Folder.
+
+If Not Then :
+===========Keep This file in python37/Scripts============================
+1. open cmd and run : python get-pip.py
+2. This will install the python.
+
+===========End of PIP Installation=======================================
+Checking location of any installed API: os.path.abspath(API_name.__file__)
+=========================================================================
+
+#if having issues with already installed packages
+use: pip install --ignore-installed pckagenm
+

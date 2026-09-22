@@ -1,0 +1,63 @@
+===================1. ToDo(Generic view: TemplateView)======================================================================
+1. Displaying static pages in better way using TemplateView.
+2. Doing Same thing directly from urls.py
+
+===================2. Create Project============================================================
+1. Create Project:      django-admin startproject project_01
+2. Create App:          python manage.py startapp myapp
+3. Connect this app in project_01/settings.py
+
+===================3. Create myapp/urls.py======================================================
+. Create myapp/urls.py as follow:
+#myapp/urls.py
+------------------------------------------------------------------------------------------------
+from django.urls import path
+from . import views
+from django.views.generic import TemplateView
+
+urlpatterns = [
+	path('',views.index,name='home'),
+	path('static',views.StaticView.as_view()),
+	path('static2/',TemplateView.as_view(template_name='hello_static.html'))
+]
+-------------------------------------------------------------------------------------------------
+#Here: 'StaticView' is class name and is called by adding .as_view()
+#You can directly use template as in : static2/....(no need do anything in views.py for this.)--best way.
+# So this is best way for showing static pages directly from urls.py
+
+====================4. Update myapp/views.py=====================================================
+#myapp/views.py
+-------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.generic import TemplateView
+
+def index(request):
+	return HttpResponse('Hello There.')
+
+class StaticView(TemplateView):
+   template_name = "hello_static.html"
+--------------------------------------------------------------------------------------------------
+#here StaticView is the class for directly assigning static page.
+
+====================5. Connect with main urls.py==================================================
+#project_01/urls.py
+---------------------------------------------------------------------------------------------------
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('myapp/', include('myapp.urls')),
+    path('admin/', admin.site.urls),
+]
+---------------------------------------------------------------------------------------------------
+
+====================6. Create static pages=========================================================
+#myapp/templates/hello_static.html
+: Create any html page..
+
+====================7. Run server and check========================================================
+Check:
+1. http://127.0.0.1:8000/myapp/
+2. http://127.0.0.1:8000/myapp/static         : will display static page
+3. http://127.0.0.1:8000/myapp/static2/       : same static page.

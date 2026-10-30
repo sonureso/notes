@@ -30,6 +30,7 @@ print(result[1].page_content)
 
 ### 2. Text Structure Based Text Splitting
 This splitting technique first splits bases on paragraph. If chunk is bigger then it splits further based on words and then chars.
+It tries to split on them in order until the chunks are small enough. The default list is ["\n\n", "\n", " ", ""]. This has the effect of trying to keep all paragraphs (and then sentences, and then words) together as long as possible, as those would generically seem to be the strongest semantically related pieces of text.
 ```python
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 text = """

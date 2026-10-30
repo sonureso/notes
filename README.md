@@ -4,3 +4,4 @@
 • cd env_name -> Scripts/activate
 
 ## 2. 
+
